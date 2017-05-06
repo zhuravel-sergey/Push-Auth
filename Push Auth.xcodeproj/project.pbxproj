@@ -12,6 +12,7 @@
 		311C99E51EBE097900635674 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 311C99E31EBE097900635674 /* Main.storyboard */; };
 		311C99E71EBE097900635674 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 311C99E61EBE097900635674 /* Assets.xcassets */; };
 		311C99EA1EBE097900635674 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 311C99E81EBE097900635674 /* LaunchScreen.storyboard */; };
+		92D42E93E095F4960E18D28A /* Pods_Push_Auth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF2AB32BD212D95D5F6689B7 /* Pods_Push_Auth.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,9 @@
 		311C99E61EBE097900635674 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		311C99E91EBE097900635674 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		311C99EB1EBE097900635674 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		611F5CBFF6AB1052003C9AF5 /* Pods-Push Auth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Push Auth.release.xcconfig"; path = "Pods/Target Support Files/Pods-Push Auth/Pods-Push Auth.release.xcconfig"; sourceTree = "<group>"; };
+		DF2AB32BD212D95D5F6689B7 /* Pods_Push_Auth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Push_Auth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7EC64A3B45D6AF362BD3DFB /* Pods-Push Auth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Push Auth.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Push Auth/Pods-Push Auth.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92D42E93E095F4960E18D28A /* Pods_Push_Auth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +45,8 @@
 			children = (
 				311C99DE1EBE097900635674 /* Push Auth */,
 				311C99DD1EBE097900635674 /* Products */,
+				BD902179AF34AF7142C01FC1 /* Pods */,
+				A1C06E2441E5758ACD9F0AD0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +71,23 @@
 			path = "Push Auth";
 			sourceTree = "<group>";
 		};
+		A1C06E2441E5758ACD9F0AD0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DF2AB32BD212D95D5F6689B7 /* Pods_Push_Auth.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BD902179AF34AF7142C01FC1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F7EC64A3B45D6AF362BD3DFB /* Pods-Push Auth.debug.xcconfig */,
+				611F5CBFF6AB1052003C9AF5 /* Pods-Push Auth.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -71,9 +95,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 311C99EE1EBE097900635674 /* Build configuration list for PBXNativeTarget "Push Auth" */;
 			buildPhases = (
+				F515DEB69F2321299239E7BF /* [CP] Check Pods Manifest.lock */,
 				311C99D81EBE097900635674 /* Sources */,
 				311C99D91EBE097900635674 /* Frameworks */,
 				311C99DA1EBE097900635674 /* Resources */,
+				1F628E64B5F6EEFD6348D4AD /* [CP] Embed Pods Frameworks */,
+				7F412A3450B4685C318CAE93 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -131,6 +158,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1F628E64B5F6EEFD6348D4AD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Push Auth/Pods-Push Auth-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7F412A3450B4685C318CAE93 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Push Auth/Pods-Push Auth-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F515DEB69F2321299239E7BF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		311C99D81EBE097900635674 /* Sources */ = {
@@ -261,6 +336,7 @@
 		};
 		311C99EF1EBE097900635674 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F7EC64A3B45D6AF362BD3DFB /* Pods-Push Auth.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = ZLP5W62CHY;
@@ -274,6 +350,7 @@
 		};
 		311C99F01EBE097900635674 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 611F5CBFF6AB1052003C9AF5 /* Pods-Push Auth.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = ZLP5W62CHY;
