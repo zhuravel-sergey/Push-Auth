@@ -6,5 +6,11 @@ target 'Push Auth' do
   use_frameworks!
 
   # Pods for Push Auth
+  
+  pod 'UIColor-HexString'
+  pod 'Alamofire', '~> 4.3’
+  pod 'Fabric'
+  pod 'Crashlytics'
+  pod 'REFrostedViewController'
 
 end

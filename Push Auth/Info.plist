@@ -18,8 +18,44 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>180b95a21c12f328bf49a142d2f9822d459c0702</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SF-UI-Text-Bold.otf</string>
+		<string>SF-UI-Text-BoldItalic.otf</string>
+		<string>SF-UI-Text-Heavy.otf</string>
+		<string>SF-UI-Text-HeavyItalic.otf</string>
+		<string>SF-UI-Text-Light.otf</string>
+		<string>SF-UI-Text-LightItalic.otf</string>
+		<string>SF-UI-Text-Medium.otf</string>
+		<string>SF-UI-Text-MediumItalic.otf</string>
+		<string>SF-UI-Text-Regular.otf</string>
+		<string>SF-UI-Text-RegularItalic.otf</string>
+		<string>SF-UI-Text-Semibold.otf</string>
+		<string>SF-UI-Text-SemiboldItalic.otf</string>
+		<string>SF-UI-Text-Ultrathin.otf</string>
+		<string>SF-UI-Text-UltrathinItalic.otf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -28,11 +64,13 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

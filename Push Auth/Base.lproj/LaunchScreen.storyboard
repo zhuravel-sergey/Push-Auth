@@ -1,9 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-UI-Text-Regular.otf">
+            <string>SFUIText-Regular</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
@@ -16,12 +24,48 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backGround" translatesAutoresizingMaskIntoConstraints="NO" id="KMY-b5-Og8">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PUSH AUTH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fEH-xC-3nk">
+                                <rect key="frame" x="0.0" y="393.5" width="375" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="29" id="P4E-fg-ICT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SFUIText-Regular" family="SF UI Text" pointSize="28"/>
+                                <color key="textColor" white="1" alpha="0.75341489779874204" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoWhite" translatesAutoresizingMaskIntoConstraints="NO" id="JZ1-Nw-u3S">
+                                <rect key="frame" x="97" y="183.5" width="180" height="180"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="180" id="rdh-mJ-j0c"/>
+                                    <constraint firstAttribute="height" constant="180" id="zTO-jA-Cyc"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="fEH-xC-3nk" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="2GP-pR-FUj"/>
+                            <constraint firstItem="KMY-b5-Og8" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="Dgz-zl-iva"/>
+                            <constraint firstAttribute="trailing" secondItem="fEH-xC-3nk" secondAttribute="trailing" id="Lqw-OC-JHx"/>
+                            <constraint firstItem="JZ1-Nw-u3S" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-60" id="QDr-Fm-hWr"/>
+                            <constraint firstItem="fEH-xC-3nk" firstAttribute="top" secondItem="JZ1-Nw-u3S" secondAttribute="bottom" constant="30" id="Qsx-7h-BPG"/>
+                            <constraint firstAttribute="trailing" secondItem="KMY-b5-Og8" secondAttribute="trailing" id="d4T-zB-vrP"/>
+                            <constraint firstItem="KMY-b5-Og8" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="hU4-mM-j5W"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="KMY-b5-Og8" secondAttribute="bottom" id="kky-Tm-MTv"/>
+                            <constraint firstItem="JZ1-Nw-u3S" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="uyS-sf-X1D"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="backGround" width="375" height="667"/>
+        <image name="logoWhite" width="154" height="153"/>
+    </resources>
 </document>
