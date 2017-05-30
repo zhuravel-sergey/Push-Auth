@@ -32,6 +32,7 @@
 		31564B201ED1B2340048697C /* SF-UI-Text-Ultrathin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31564B121ED1B2340048697C /* SF-UI-Text-Ultrathin.otf */; };
 		31564B211ED1B2340048697C /* SF-UI-Text-UltrathinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31564B131ED1B2340048697C /* SF-UI-Text-UltrathinItalic.otf */; };
 		31564B231ED1D5140048697C /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31564B221ED1D5140048697C /* MenuTableViewCell.swift */; };
+		31ED6A621EDDBA37008CDCB9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31ED6A611EDDBA37008CDCB9 /* GoogleService-Info.plist */; };
 		92D42E93E095F4960E18D28A /* Pods_Push_Auth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF2AB32BD212D95D5F6689B7 /* Pods_Push_Auth.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +64,8 @@
 		31564B121ED1B2340048697C /* SF-UI-Text-Ultrathin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Text-Ultrathin.otf"; path = "Fonts/SF/SF-UI-Text-Ultrathin.otf"; sourceTree = "<group>"; };
 		31564B131ED1B2340048697C /* SF-UI-Text-UltrathinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Text-UltrathinItalic.otf"; path = "Fonts/SF/SF-UI-Text-UltrathinItalic.otf"; sourceTree = "<group>"; };
 		31564B221ED1D5140048697C /* MenuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuTableViewCell.swift; path = Main/Cells/MenuTableViewCell.swift; sourceTree = "<group>"; };
+		31ED6A601EDDB8C3008CDCB9 /* Push Auth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Push Auth.entitlements"; sourceTree = "<group>"; };
+		31ED6A611EDDBA37008CDCB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		611F5CBFF6AB1052003C9AF5 /* Pods-Push Auth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Push Auth.release.xcconfig"; path = "Pods/Target Support Files/Pods-Push Auth/Pods-Push Auth.release.xcconfig"; sourceTree = "<group>"; };
 		DF2AB32BD212D95D5F6689B7 /* Pods_Push_Auth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Push_Auth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7EC64A3B45D6AF362BD3DFB /* Pods-Push Auth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Push Auth.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Push Auth/Pods-Push Auth.debug.xcconfig"; sourceTree = "<group>"; };
@@ -101,6 +104,7 @@
 		311C99DE1EBE097900635674 /* Push Auth */ = {
 			isa = PBXGroup;
 			children = (
+				31ED6A601EDDB8C3008CDCB9 /* Push Auth.entitlements */,
 				3142EDCC1ED72B5E002FD5A8 /* Managers */,
 				31564B041ED1B1EC0048697C /* Fonts */,
 				31564AF71ED1ADAC0048697C /* Main */,
@@ -109,6 +113,7 @@
 				311C99E61EBE097900635674 /* Assets.xcassets */,
 				311C99E81EBE097900635674 /* LaunchScreen.storyboard */,
 				311C99EB1EBE097900635674 /* Info.plist */,
+				31ED6A611EDDBA37008CDCB9 /* GoogleService-Info.plist */,
 			);
 			path = "Push Auth";
 			sourceTree = "<group>";
@@ -250,6 +255,11 @@
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = ZLP5W62CHY;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -287,6 +297,7 @@
 				31564B181ED1B2340048697C /* SF-UI-Text-Light.otf in Resources */,
 				31564B191ED1B2340048697C /* SF-UI-Text-LightItalic.otf in Resources */,
 				31564B1A1ED1B2340048697C /* SF-UI-Text-Medium.otf in Resources */,
+				31ED6A621EDDBA37008CDCB9 /* GoogleService-Info.plist in Resources */,
 				311C99E51EBE097900635674 /* Main.storyboard in Resources */,
 				31564B1F1ED1B2340048697C /* SF-UI-Text-SemiboldItalic.otf in Resources */,
 				31564B211ED1B2340048697C /* SF-UI-Text-UltrathinItalic.otf in Resources */,
@@ -497,6 +508,7 @@
 			baseConfigurationReference = F7EC64A3B45D6AF362BD3DFB /* Pods-Push Auth.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Push Auth/Push Auth.entitlements";
 				DEVELOPMENT_TEAM = ZLP5W62CHY;
 				INFOPLIST_FILE = "Push Auth/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -512,6 +524,7 @@
 			baseConfigurationReference = 611F5CBFF6AB1052003C9AF5 /* Pods-Push Auth.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Push Auth/Push Auth.entitlements";
 				DEVELOPMENT_TEAM = ZLP5W62CHY;
 				INFOPLIST_FILE = "Push Auth/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

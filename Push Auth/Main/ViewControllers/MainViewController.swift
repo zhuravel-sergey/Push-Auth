@@ -13,7 +13,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if DataManager.sharedInstance.userToken == nil || DataManager.sharedInstance.userToken == "" {
+        /*if DataManager.sharedInstance.userToken == nil || DataManager.sharedInstance.userToken == "" {
             
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController!
             
@@ -21,7 +21,7 @@ class MainViewController: UIViewController {
                 
                 self.present(vc!, animated: false, completion: nil)
             }
-        }
+        } */
     }
 
     override func didReceiveMemoryWarning() {

@@ -12,5 +12,6 @@ target 'Push Auth' do
   pod 'Fabric'
   pod 'Crashlytics'
   pod 'REFrostedViewController'
-
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
 end

@@ -13,11 +13,18 @@ struct ConstantsKeys {
     static let kStoredFilename = "storedFilename.gtt"
     
     static let kUserToken  = "userToken"
+    static let kNotificationToken  = "notificationToken"
 }
 
 class DataManager: NSObject {
     
     var userToken:String? {
+        didSet {
+            self.saveData()
+        }
+    }
+    
+    var notificationToken:String? {
         didSet {
             self.saveData()
         }
@@ -49,6 +56,7 @@ class DataManager: NSObject {
             if let storedSession = NSKeyedUnarchiver.unarchiveObject(withFile: storedFile) as? Dictionary<String, Any> {
                 
                 self.userToken = storedSession[ConstantsKeys.kUserToken] as! String?
+                self.notificationToken = storedSession[ConstantsKeys.kNotificationToken] as! String?
             }
         }
     }
@@ -61,7 +69,12 @@ class DataManager: NSObject {
             self.userToken = ""
         }
         
-        let storedDic = [ConstantsKeys.kUserToken : self.userToken ?? ""] as [String : Any]
+        if self.notificationToken == nil {
+            self.notificationToken = ""
+        }
+        
+        let storedDic = [ConstantsKeys.kUserToken : self.userToken ?? "",
+                         ConstantsKeys.kNotificationToken : self.notificationToken ?? ""] as [String : Any]
         
         NSKeyedArchiver.archiveRootObject(storedDic, toFile: storedFile)
     }
