@@ -30,6 +30,13 @@ class LoginViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+
+            //self.showCheckEmailPopUp()
+
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -125,6 +132,17 @@ class LoginViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    func showCheckEmailPopUp() {
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "CheckEmailViewController") as! CheckEmailViewController!
+        
+        vc!.transitioningDelegate = self.transitioningDelegate
+        vc!.modalPresentationStyle = .overFullScreen
+        vc!.modalTransitionStyle = .crossDissolve
+        
+        self.present(vc!, animated: true, completion: nil)
+    }
+    
     //MARK: Webservice
     
     func requestLogin() {
@@ -136,10 +154,13 @@ class LoginViewController: UIViewController {
                                       "device_uuid" : (UIDevice.current.identifierForVendor?.uuidString)!,
                                       "device_token" : FIRInstanceID.instanceID().token() ?? "",
                                       "device_type" : "ios"]
-        print("login", parameters)
         
-        Alamofire.request("https://api.pushauth.zenlix.com/auth", method: .post, parameters: parameters).validate(contentType: ["application/json"]).responseJSON { response in
-            print("Header: \(String(describing: response.response?.allHeaderFields))")
+        let headers = ["Content-Type": "application/json"]
+        
+        Alamofire.request("https://api.pushauth.io/auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
+            print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
+            print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
+            print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
 
             switch response.result {
             case .success:
@@ -148,6 +169,20 @@ class LoginViewController: UIViewController {
                 if let responseJSON = response.result.value {
                     let JSON = responseJSON as! NSDictionary
                     print("JSON: \(JSON)")
+                    
+                    if (JSON["is_access"] != nil) {
+                        if JSON["is_access"] as! Bool {
+                            
+                            DataManager.sharedInstance.userToken = JSON["public_key"] as? String
+                            self.dismiss(animated: true, completion: nil)
+                            
+                        } else {
+                            if JSON["message"] as! String == "Please check your email for confirmation!" {
+                                
+                                self.showCheckEmailPopUp()
+                            }
+                        }
+                    }
                     
                     self.actIndicator.stopAnimating()
                     self.loginButton.isEnabled = true

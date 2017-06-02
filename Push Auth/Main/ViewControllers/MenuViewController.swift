@@ -15,7 +15,7 @@ class MenuViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    let nameArray = ["Main", "Settings", "LogOut"]
+    let nameArray = ["Main", "Settings", "Log Out"]
     //let iconArray = ["", ""]
     
     override func viewDidLoad() {

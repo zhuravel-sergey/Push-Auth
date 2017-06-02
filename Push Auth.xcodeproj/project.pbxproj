@@ -32,6 +32,9 @@
 		31564B201ED1B2340048697C /* SF-UI-Text-Ultrathin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31564B121ED1B2340048697C /* SF-UI-Text-Ultrathin.otf */; };
 		31564B211ED1B2340048697C /* SF-UI-Text-UltrathinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31564B131ED1B2340048697C /* SF-UI-Text-UltrathinItalic.otf */; };
 		31564B231ED1D5140048697C /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31564B221ED1D5140048697C /* MenuTableViewCell.swift */; };
+		3190D4801EDEE2ED00CC52F8 /* CheckEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3190D47F1EDEE2ED00CC52F8 /* CheckEmailViewController.swift */; };
+		3190D48B1EDF190800CC52F8 /* MBCircularProgressBarLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3190D4881EDF190800CC52F8 /* MBCircularProgressBarLayer.m */; };
+		3190D48C1EDF190800CC52F8 /* MBCircularProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3190D48A1EDF190800CC52F8 /* MBCircularProgressBarView.m */; };
 		31ED6A621EDDBA37008CDCB9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31ED6A611EDDBA37008CDCB9 /* GoogleService-Info.plist */; };
 		92D42E93E095F4960E18D28A /* Pods_Push_Auth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF2AB32BD212D95D5F6689B7 /* Pods_Push_Auth.framework */; };
 /* End PBXBuildFile section */
@@ -64,6 +67,12 @@
 		31564B121ED1B2340048697C /* SF-UI-Text-Ultrathin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Text-Ultrathin.otf"; path = "Fonts/SF/SF-UI-Text-Ultrathin.otf"; sourceTree = "<group>"; };
 		31564B131ED1B2340048697C /* SF-UI-Text-UltrathinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Text-UltrathinItalic.otf"; path = "Fonts/SF/SF-UI-Text-UltrathinItalic.otf"; sourceTree = "<group>"; };
 		31564B221ED1D5140048697C /* MenuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuTableViewCell.swift; path = Main/Cells/MenuTableViewCell.swift; sourceTree = "<group>"; };
+		3190D47F1EDEE2ED00CC52F8 /* CheckEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckEmailViewController.swift; path = Main/ViewControllers/PopUp/CheckEmailViewController.swift; sourceTree = "<group>"; };
+		3190D4811EDF15B700CC52F8 /* Push Auth-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Push Auth-Bridging-Header.h"; sourceTree = "<group>"; };
+		3190D4871EDF190800CC52F8 /* MBCircularProgressBarLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBCircularProgressBarLayer.h; path = Library/MBCircularProgressBar/MBCircularProgressBarLayer.h; sourceTree = "<group>"; };
+		3190D4881EDF190800CC52F8 /* MBCircularProgressBarLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBCircularProgressBarLayer.m; path = Library/MBCircularProgressBar/MBCircularProgressBarLayer.m; sourceTree = "<group>"; };
+		3190D4891EDF190800CC52F8 /* MBCircularProgressBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBCircularProgressBarView.h; path = Library/MBCircularProgressBar/MBCircularProgressBarView.h; sourceTree = "<group>"; };
+		3190D48A1EDF190800CC52F8 /* MBCircularProgressBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBCircularProgressBarView.m; path = Library/MBCircularProgressBar/MBCircularProgressBarView.m; sourceTree = "<group>"; };
 		31ED6A601EDDB8C3008CDCB9 /* Push Auth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Push Auth.entitlements"; sourceTree = "<group>"; };
 		31ED6A611EDDBA37008CDCB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		611F5CBFF6AB1052003C9AF5 /* Pods-Push Auth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Push Auth.release.xcconfig"; path = "Pods/Target Support Files/Pods-Push Auth/Pods-Push Auth.release.xcconfig"; sourceTree = "<group>"; };
@@ -104,6 +113,7 @@
 		311C99DE1EBE097900635674 /* Push Auth */ = {
 			isa = PBXGroup;
 			children = (
+				3190D4851EDF18C700CC52F8 /* Library */,
 				31ED6A601EDDB8C3008CDCB9 /* Push Auth.entitlements */,
 				3142EDCC1ED72B5E002FD5A8 /* Managers */,
 				31564B041ED1B1EC0048697C /* Fonts */,
@@ -114,6 +124,7 @@
 				311C99E81EBE097900635674 /* LaunchScreen.storyboard */,
 				311C99EB1EBE097900635674 /* Info.plist */,
 				31ED6A611EDDBA37008CDCB9 /* GoogleService-Info.plist */,
+				3190D4811EDF15B700CC52F8 /* Push Auth-Bridging-Header.h */,
 			);
 			path = "Push Auth";
 			sourceTree = "<group>";
@@ -140,6 +151,7 @@
 		31564AF81ED1ADC70048697C /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				3190D47E1EDEE2B900CC52F8 /* PopUp */,
 				31564AFE1ED1AFC40048697C /* RootViewController.swift */,
 				31564B001ED1AFDF0048697C /* MenuViewController.swift */,
 				31564B021ED1B03B0048697C /* MenuNavigationViewController.swift */,
@@ -200,6 +212,33 @@
 			name = SF;
 			sourceTree = "<group>";
 		};
+		3190D47E1EDEE2B900CC52F8 /* PopUp */ = {
+			isa = PBXGroup;
+			children = (
+				3190D47F1EDEE2ED00CC52F8 /* CheckEmailViewController.swift */,
+			);
+			name = PopUp;
+			sourceTree = "<group>";
+		};
+		3190D4851EDF18C700CC52F8 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				3190D4861EDF18FF00CC52F8 /* MBCircularProgressBar */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		3190D4861EDF18FF00CC52F8 /* MBCircularProgressBar */ = {
+			isa = PBXGroup;
+			children = (
+				3190D4871EDF190800CC52F8 /* MBCircularProgressBarLayer.h */,
+				3190D4881EDF190800CC52F8 /* MBCircularProgressBarLayer.m */,
+				3190D4891EDF190800CC52F8 /* MBCircularProgressBarView.h */,
+				3190D48A1EDF190800CC52F8 /* MBCircularProgressBarView.m */,
+			);
+			name = MBCircularProgressBar;
+			sourceTree = "<group>";
+		};
 		A1C06E2441E5758ACD9F0AD0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -254,6 +293,7 @@
 					311C99DB1EBE097900635674 = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = ZLP5W62CHY;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -375,12 +415,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3190D48C1EDF190800CC52F8 /* MBCircularProgressBarView.m in Sources */,
 				3142EDCB1ED727D6002FD5A8 /* LoginViewController.swift in Sources */,
 				3142EDCE1ED72B90002FD5A8 /* DataManager.swift in Sources */,
 				311C99E01EBE097900635674 /* AppDelegate.swift in Sources */,
 				31564AFD1ED1AE9D0048697C /* MainViewController.swift in Sources */,
 				31564B231ED1D5140048697C /* MenuTableViewCell.swift in Sources */,
 				31564AFF1ED1AFC40048697C /* RootViewController.swift in Sources */,
+				3190D48B1EDF190800CC52F8 /* MBCircularProgressBarLayer.m in Sources */,
+				3190D4801EDEE2ED00CC52F8 /* CheckEmailViewController.swift in Sources */,
 				31564B031ED1B03B0048697C /* MenuNavigationViewController.swift in Sources */,
 				31564B011ED1AFDF0048697C /* MenuViewController.swift in Sources */,
 			);
@@ -508,6 +551,7 @@
 			baseConfigurationReference = F7EC64A3B45D6AF362BD3DFB /* Pods-Push Auth.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Push Auth/Push Auth.entitlements";
 				DEVELOPMENT_TEAM = ZLP5W62CHY;
 				INFOPLIST_FILE = "Push Auth/Info.plist";
@@ -515,6 +559,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Sergey-Zhuravel.Push-Auth";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Push Auth/Push Auth-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -524,6 +570,7 @@
 			baseConfigurationReference = 611F5CBFF6AB1052003C9AF5 /* Pods-Push Auth.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Push Auth/Push Auth.entitlements";
 				DEVELOPMENT_TEAM = ZLP5W62CHY;
 				INFOPLIST_FILE = "Push Auth/Info.plist";
@@ -531,6 +578,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Sergey-Zhuravel.Push-Auth";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Push Auth/Push Auth-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

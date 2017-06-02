@@ -10,10 +10,17 @@ import UIKit
 
 class MainViewController: UIViewController {
 
+    @IBOutlet weak var requestBackGroudnView: UIView!
+    @IBOutlet weak var serviceNameLabel: UILabel!
+    @IBOutlet weak var progressBarView: MBCircularProgressBarView!
+    
+    @IBOutlet weak var yesButton: UIButton!
+    @IBOutlet weak var noButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        /*if DataManager.sharedInstance.userToken == nil || DataManager.sharedInstance.userToken == "" {
+        if DataManager.sharedInstance.userToken == nil || DataManager.sharedInstance.userToken == "" {
             
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController!
             
@@ -21,7 +28,7 @@ class MainViewController: UIViewController {
                 
                 self.present(vc!, animated: false, completion: nil)
             }
-        } */
+        }
     }
 
     override func didReceiveMemoryWarning() {
