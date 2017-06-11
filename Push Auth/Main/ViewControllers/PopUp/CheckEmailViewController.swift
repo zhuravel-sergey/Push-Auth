@@ -13,20 +13,24 @@ class CheckEmailViewController: UIViewController {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var emailBackGroundView: UIView!
     
+    @IBOutlet weak var emailLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.emailBackGroundView.layer.masksToBounds = false
-        self.emailBackGroundView.layer.shadowColor = UIColor.black.withAlphaComponent(0.30).cgColor
-        self.emailBackGroundView.layer.shadowOpacity = 1
-        self.emailBackGroundView.layer.shadowOffset = CGSize.zero
-        self.emailBackGroundView.layer.shadowRadius = 15
+        self.emailLabel.layer.masksToBounds = false
+        self.emailLabel.layer.shadowColor = UIColor.black.withAlphaComponent(0.7).cgColor
+        self.emailLabel.layer.shadowOpacity = 0.5
+        self.emailLabel.layer.shadowOffset = CGSize.zero
+        self.emailLabel.layer.shadowRadius = 10
         
-        self.emailBackGroundView.layer.shadowPath = UIBezierPath(rect: self.emailBackGroundView.bounds).cgPath
-        self.emailBackGroundView.layer.shouldRasterize = true
+        var rect = self.emailLabel.bounds
+        rect.size.width = self.view.frame.size.width - 22
         
-        self.emailBackGroundView.layer.borderColor = UIColor.white.cgColor
-        self.emailBackGroundView.layer.borderWidth = 1
+        self.emailLabel.layer.shadowPath = UIBezierPath(rect: rect).cgPath
+        self.emailLabel.layer.shouldRasterize = true
+        
+        self.emailLabel.layer.borderColor = UIColor.white.cgColor
+        self.emailLabel.layer.borderWidth = 1
 
         self.backButton.layer.masksToBounds = true
         self.backButton.layer.cornerRadius = 28

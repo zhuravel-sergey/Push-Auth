@@ -10,6 +10,11 @@ import UIKit
 import Alamofire
 import Firebase
 
+protocol LoginViewControllerDelegate {
+    
+    func dismissViewController()
+}
+
 class LoginViewController: UIViewController {
 
     @IBOutlet weak var loginButton: UIButton!
@@ -19,7 +24,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailViewBottomConstraint: NSLayoutConstraint!
     
     let actIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
-    
+    var delegate: LoginViewControllerDelegate!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,20 +36,18 @@ class LoginViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.dismissScreen), name: NSNotification.Name(rawValue: "PushAuth"), object: nil)
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 
             //self.showCheckEmailPopUp()
-
         }
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: self.view.window)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: self.view.window)
+
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -92,6 +96,12 @@ class LoginViewController: UIViewController {
     func dismissKeyboard() {
         
         view.endEditing(true)
+    }
+    
+    func dismissScreen() {
+        
+        self.dismiss(animated: true, completion: nil)
+        self.delegate.dismissViewController()
     }
     
     //MARK: Valid Email
@@ -154,6 +164,11 @@ class LoginViewController: UIViewController {
                                       "device_uuid" : (UIDevice.current.identifierForVendor?.uuidString)!,
                                       "device_token" : FIRInstanceID.instanceID().token() ?? "",
                                       "device_type" : "ios"]
+        /*
+        let parameters: Parameters = ["email": "",
+                                      "device_uuid" : (UIDevice.current.identifierForVendor?.uuidString)!,
+                                      "device_token" : FIRInstanceID.instanceID().token() ?? "",
+                                      "device_type" : "ios"] */
         
         let headers = ["Content-Type": "application/json"]
         
@@ -173,19 +188,23 @@ class LoginViewController: UIViewController {
                     if (JSON["is_access"] != nil) {
                         if JSON["is_access"] as! Bool {
                             
-                            DataManager.sharedInstance.userToken = JSON["public_key"] as? String
-                            self.dismiss(animated: true, completion: nil)
+                            DataManager.sharedInstance.userEmail = self.emailTextField.text
+                            DataManager.sharedInstance.userPublicKey = JSON["public_key"] as? String
+                            //self.dismiss(animated: true, completion: nil)
                             
                         } else {
                             if JSON["message"] as! String == "Please check your email for confirmation!" {
                                 
+                                self.actIndicator.stopAnimating()
+                                self.loginButton.isEnabled = true
+                                
                                 self.showCheckEmailPopUp()
+                            } else if JSON["message"] as! String == "Validating error: The device token field is required." {
+                                
+                                self.requestLogin()
                             }
                         }
                     }
-                    
-                    self.actIndicator.stopAnimating()
-                    self.loginButton.isEnabled = true
                 }
             case .failure(let error):
                 

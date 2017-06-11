@@ -11,6 +11,17 @@
 		311C99E51EBE097900635674 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 311C99E31EBE097900635674 /* Main.storyboard */; };
 		311C99E71EBE097900635674 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 311C99E61EBE097900635674 /* Assets.xcassets */; };
 		311C99EA1EBE097900635674 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 311C99E81EBE097900635674 /* LaunchScreen.storyboard */; };
+		313BD1EB1EEAD8D800BAA5C2 /* SCPinAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 313BD1EA1EEAD8D800BAA5C2 /* SCPinAppearance.m */; };
+		313BD1F21EEAD8E300BAA5C2 /* sc_img_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 313BD1EC1EEAD8E300BAA5C2 /* sc_img_delete.png */; };
+		313BD1F31EEAD8E300BAA5C2 /* sc_img_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 313BD1ED1EEAD8E300BAA5C2 /* sc_img_delete@2x.png */; };
+		313BD1F41EEAD8E300BAA5C2 /* sc_img_delete@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 313BD1EE1EEAD8E300BAA5C2 /* sc_img_delete@3x.png */; };
+		313BD1F51EEAD8E300BAA5C2 /* sc_img_touchid.png in Resources */ = {isa = PBXBuildFile; fileRef = 313BD1EF1EEAD8E300BAA5C2 /* sc_img_touchid.png */; };
+		313BD1F61EEAD8E300BAA5C2 /* sc_img_touchid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 313BD1F01EEAD8E300BAA5C2 /* sc_img_touchid@2x.png */; };
+		313BD1F71EEAD8E300BAA5C2 /* sc_img_touchid@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 313BD1F11EEAD8E300BAA5C2 /* sc_img_touchid@3x.png */; };
+		313BD1FC1EEAD90600BAA5C2 /* SCPinButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 313BD1FB1EEAD90600BAA5C2 /* SCPinButton.m */; };
+		313BD1FF1EEAD90F00BAA5C2 /* SCPinView.m in Sources */ = {isa = PBXBuildFile; fileRef = 313BD1FE1EEAD90F00BAA5C2 /* SCPinView.m */; };
+		313BD2031EEADD5C00BAA5C2 /* SCPinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 313BD2011EEADD5C00BAA5C2 /* SCPinViewController.m */; };
+		313BD2041EEADD5C00BAA5C2 /* SCPinViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 313BD2021EEADD5C00BAA5C2 /* SCPinViewController.xib */; };
 		3142EDCB1ED727D6002FD5A8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3142EDCA1ED727D6002FD5A8 /* LoginViewController.swift */; };
 		3142EDCE1ED72B90002FD5A8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3142EDCD1ED72B90002FD5A8 /* DataManager.swift */; };
 		31564AFD1ED1AE9D0048697C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31564AFC1ED1AE9D0048697C /* MainViewController.swift */; };
@@ -35,7 +46,8 @@
 		3190D4801EDEE2ED00CC52F8 /* CheckEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3190D47F1EDEE2ED00CC52F8 /* CheckEmailViewController.swift */; };
 		3190D48B1EDF190800CC52F8 /* MBCircularProgressBarLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3190D4881EDF190800CC52F8 /* MBCircularProgressBarLayer.m */; };
 		3190D48C1EDF190800CC52F8 /* MBCircularProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3190D48A1EDF190800CC52F8 /* MBCircularProgressBarView.m */; };
-		31ED6A621EDDBA37008CDCB9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31ED6A611EDDBA37008CDCB9 /* GoogleService-Info.plist */; };
+		31A5EA301EE2D026007F9711 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31A5EA2F1EE2D026007F9711 /* GoogleService-Info.plist */; };
+		31A5EA321EE316FD007F9711 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A5EA311EE316FD007F9711 /* SettingsViewController.swift */; };
 		92D42E93E095F4960E18D28A /* Pods_Push_Auth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF2AB32BD212D95D5F6689B7 /* Pods_Push_Auth.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +58,21 @@
 		311C99E61EBE097900635674 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		311C99E91EBE097900635674 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		311C99EB1EBE097900635674 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		313BD1E91EEAD8D800BAA5C2 /* SCPinAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SCPinAppearance.h; path = Library/SCPinViewController/Appearance/SCPinAppearance.h; sourceTree = "<group>"; };
+		313BD1EA1EEAD8D800BAA5C2 /* SCPinAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCPinAppearance.m; path = Library/SCPinViewController/Appearance/SCPinAppearance.m; sourceTree = "<group>"; };
+		313BD1EC1EEAD8E300BAA5C2 /* sc_img_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sc_img_delete.png; path = Library/SCPinViewController/images/sc_img_delete.png; sourceTree = "<group>"; };
+		313BD1ED1EEAD8E300BAA5C2 /* sc_img_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sc_img_delete@2x.png"; path = "Library/SCPinViewController/images/sc_img_delete@2x.png"; sourceTree = "<group>"; };
+		313BD1EE1EEAD8E300BAA5C2 /* sc_img_delete@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sc_img_delete@3x.png"; path = "Library/SCPinViewController/images/sc_img_delete@3x.png"; sourceTree = "<group>"; };
+		313BD1EF1EEAD8E300BAA5C2 /* sc_img_touchid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sc_img_touchid.png; path = Library/SCPinViewController/images/sc_img_touchid.png; sourceTree = "<group>"; };
+		313BD1F01EEAD8E300BAA5C2 /* sc_img_touchid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sc_img_touchid@2x.png"; path = "Library/SCPinViewController/images/sc_img_touchid@2x.png"; sourceTree = "<group>"; };
+		313BD1F11EEAD8E300BAA5C2 /* sc_img_touchid@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sc_img_touchid@3x.png"; path = "Library/SCPinViewController/images/sc_img_touchid@3x.png"; sourceTree = "<group>"; };
+		313BD1FA1EEAD90600BAA5C2 /* SCPinButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SCPinButton.h; path = Library/SCPinViewController/View/PinButton/SCPinButton.h; sourceTree = "<group>"; };
+		313BD1FB1EEAD90600BAA5C2 /* SCPinButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCPinButton.m; path = Library/SCPinViewController/View/PinButton/SCPinButton.m; sourceTree = "<group>"; };
+		313BD1FD1EEAD90F00BAA5C2 /* SCPinView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SCPinView.h; path = Library/SCPinViewController/View/PinView/SCPinView.h; sourceTree = "<group>"; };
+		313BD1FE1EEAD90F00BAA5C2 /* SCPinView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCPinView.m; path = Library/SCPinViewController/View/PinView/SCPinView.m; sourceTree = "<group>"; };
+		313BD2001EEADD5C00BAA5C2 /* SCPinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SCPinViewController.h; path = Library/SCPinViewController/SCPinViewController.h; sourceTree = "<group>"; };
+		313BD2011EEADD5C00BAA5C2 /* SCPinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCPinViewController.m; path = Library/SCPinViewController/SCPinViewController.m; sourceTree = "<group>"; };
+		313BD2021EEADD5C00BAA5C2 /* SCPinViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SCPinViewController.xib; path = Library/SCPinViewController/SCPinViewController.xib; sourceTree = "<group>"; };
 		3142EDCA1ED727D6002FD5A8 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = Main/ViewControllers/LoginViewController.swift; sourceTree = "<group>"; };
 		3142EDCD1ED72B90002FD5A8 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataManager.swift; path = Managers/DataManager.swift; sourceTree = "<group>"; };
 		31564AFC1ED1AE9D0048697C /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = Main/ViewControllers/MainViewController.swift; sourceTree = "<group>"; };
@@ -73,8 +100,9 @@
 		3190D4881EDF190800CC52F8 /* MBCircularProgressBarLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBCircularProgressBarLayer.m; path = Library/MBCircularProgressBar/MBCircularProgressBarLayer.m; sourceTree = "<group>"; };
 		3190D4891EDF190800CC52F8 /* MBCircularProgressBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBCircularProgressBarView.h; path = Library/MBCircularProgressBar/MBCircularProgressBarView.h; sourceTree = "<group>"; };
 		3190D48A1EDF190800CC52F8 /* MBCircularProgressBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBCircularProgressBarView.m; path = Library/MBCircularProgressBar/MBCircularProgressBarView.m; sourceTree = "<group>"; };
+		31A5EA2F1EE2D026007F9711 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		31A5EA311EE316FD007F9711 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = Main/ViewControllers/SettingsViewController.swift; sourceTree = "<group>"; };
 		31ED6A601EDDB8C3008CDCB9 /* Push Auth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Push Auth.entitlements"; sourceTree = "<group>"; };
-		31ED6A611EDDBA37008CDCB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		611F5CBFF6AB1052003C9AF5 /* Pods-Push Auth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Push Auth.release.xcconfig"; path = "Pods/Target Support Files/Pods-Push Auth/Pods-Push Auth.release.xcconfig"; sourceTree = "<group>"; };
 		DF2AB32BD212D95D5F6689B7 /* Pods_Push_Auth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Push_Auth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7EC64A3B45D6AF362BD3DFB /* Pods-Push Auth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Push Auth.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Push Auth/Pods-Push Auth.debug.xcconfig"; sourceTree = "<group>"; };
@@ -123,10 +151,72 @@
 				311C99E61EBE097900635674 /* Assets.xcassets */,
 				311C99E81EBE097900635674 /* LaunchScreen.storyboard */,
 				311C99EB1EBE097900635674 /* Info.plist */,
-				31ED6A611EDDBA37008CDCB9 /* GoogleService-Info.plist */,
+				31A5EA2F1EE2D026007F9711 /* GoogleService-Info.plist */,
 				3190D4811EDF15B700CC52F8 /* Push Auth-Bridging-Header.h */,
 			);
 			path = "Push Auth";
+			sourceTree = "<group>";
+		};
+		313BD1DA1EEAD85C00BAA5C2 /* SCPinViewController */ = {
+			isa = PBXGroup;
+			children = (
+				313BD2001EEADD5C00BAA5C2 /* SCPinViewController.h */,
+				313BD2011EEADD5C00BAA5C2 /* SCPinViewController.m */,
+				313BD2021EEADD5C00BAA5C2 /* SCPinViewController.xib */,
+				313BD1E81EEAD8C900BAA5C2 /* View */,
+				313BD1E71EEAD8C100BAA5C2 /* images */,
+				313BD1E61EEAD8B700BAA5C2 /* Appearance */,
+			);
+			name = SCPinViewController;
+			sourceTree = "<group>";
+		};
+		313BD1E61EEAD8B700BAA5C2 /* Appearance */ = {
+			isa = PBXGroup;
+			children = (
+				313BD1E91EEAD8D800BAA5C2 /* SCPinAppearance.h */,
+				313BD1EA1EEAD8D800BAA5C2 /* SCPinAppearance.m */,
+			);
+			name = Appearance;
+			sourceTree = "<group>";
+		};
+		313BD1E71EEAD8C100BAA5C2 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				313BD1EC1EEAD8E300BAA5C2 /* sc_img_delete.png */,
+				313BD1ED1EEAD8E300BAA5C2 /* sc_img_delete@2x.png */,
+				313BD1EE1EEAD8E300BAA5C2 /* sc_img_delete@3x.png */,
+				313BD1EF1EEAD8E300BAA5C2 /* sc_img_touchid.png */,
+				313BD1F01EEAD8E300BAA5C2 /* sc_img_touchid@2x.png */,
+				313BD1F11EEAD8E300BAA5C2 /* sc_img_touchid@3x.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		313BD1E81EEAD8C900BAA5C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				313BD1F91EEAD8F900BAA5C2 /* PinButton */,
+				313BD1F81EEAD8F100BAA5C2 /* PinView */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		313BD1F81EEAD8F100BAA5C2 /* PinView */ = {
+			isa = PBXGroup;
+			children = (
+				313BD1FD1EEAD90F00BAA5C2 /* SCPinView.h */,
+				313BD1FE1EEAD90F00BAA5C2 /* SCPinView.m */,
+			);
+			name = PinView;
+			sourceTree = "<group>";
+		};
+		313BD1F91EEAD8F900BAA5C2 /* PinButton */ = {
+			isa = PBXGroup;
+			children = (
+				313BD1FA1EEAD90600BAA5C2 /* SCPinButton.h */,
+				313BD1FB1EEAD90600BAA5C2 /* SCPinButton.m */,
+			);
+			name = PinButton;
 			sourceTree = "<group>";
 		};
 		3142EDCC1ED72B5E002FD5A8 /* Managers */ = {
@@ -156,6 +246,7 @@
 				31564B001ED1AFDF0048697C /* MenuViewController.swift */,
 				31564B021ED1B03B0048697C /* MenuNavigationViewController.swift */,
 				31564AFC1ED1AE9D0048697C /* MainViewController.swift */,
+				31A5EA311EE316FD007F9711 /* SettingsViewController.swift */,
 				3142EDCA1ED727D6002FD5A8 /* LoginViewController.swift */,
 			);
 			name = ViewControllers;
@@ -223,6 +314,7 @@
 		3190D4851EDF18C700CC52F8 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				313BD1DA1EEAD85C00BAA5C2 /* SCPinViewController */,
 				3190D4861EDF18FF00CC52F8 /* MBCircularProgressBar */,
 			);
 			name = Library;
@@ -327,21 +419,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				31564B1E1ED1B2340048697C /* SF-UI-Text-Semibold.otf in Resources */,
+				313BD1F31EEAD8E300BAA5C2 /* sc_img_delete@2x.png in Resources */,
 				311C99EA1EBE097900635674 /* LaunchScreen.storyboard in Resources */,
 				311C99E71EBE097900635674 /* Assets.xcassets in Resources */,
+				313BD1F71EEAD8E300BAA5C2 /* sc_img_touchid@3x.png in Resources */,
 				31564B1C1ED1B2340048697C /* SF-UI-Text-Regular.otf in Resources */,
 				31564B141ED1B2340048697C /* SF-UI-Text-Bold.otf in Resources */,
 				31564B161ED1B2340048697C /* SF-UI-Text-Heavy.otf in Resources */,
 				31564B171ED1B2340048697C /* SF-UI-Text-HeavyItalic.otf in Resources */,
 				31564B151ED1B2340048697C /* SF-UI-Text-BoldItalic.otf in Resources */,
 				31564B181ED1B2340048697C /* SF-UI-Text-Light.otf in Resources */,
+				313BD2041EEADD5C00BAA5C2 /* SCPinViewController.xib in Resources */,
+				313BD1F41EEAD8E300BAA5C2 /* sc_img_delete@3x.png in Resources */,
 				31564B191ED1B2340048697C /* SF-UI-Text-LightItalic.otf in Resources */,
 				31564B1A1ED1B2340048697C /* SF-UI-Text-Medium.otf in Resources */,
-				31ED6A621EDDBA37008CDCB9 /* GoogleService-Info.plist in Resources */,
+				31A5EA301EE2D026007F9711 /* GoogleService-Info.plist in Resources */,
 				311C99E51EBE097900635674 /* Main.storyboard in Resources */,
+				313BD1F21EEAD8E300BAA5C2 /* sc_img_delete.png in Resources */,
+				313BD1F51EEAD8E300BAA5C2 /* sc_img_touchid.png in Resources */,
 				31564B1F1ED1B2340048697C /* SF-UI-Text-SemiboldItalic.otf in Resources */,
 				31564B211ED1B2340048697C /* SF-UI-Text-UltrathinItalic.otf in Resources */,
 				31564B201ED1B2340048697C /* SF-UI-Text-Ultrathin.otf in Resources */,
+				313BD1F61EEAD8E300BAA5C2 /* sc_img_touchid@2x.png in Resources */,
 				31564B1D1ED1B2340048697C /* SF-UI-Text-RegularItalic.otf in Resources */,
 				31564B1B1ED1B2340048697C /* SF-UI-Text-MediumItalic.otf in Resources */,
 			);
@@ -416,6 +515,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3190D48C1EDF190800CC52F8 /* MBCircularProgressBarView.m in Sources */,
+				313BD1FF1EEAD90F00BAA5C2 /* SCPinView.m in Sources */,
+				313BD1FC1EEAD90600BAA5C2 /* SCPinButton.m in Sources */,
+				313BD1EB1EEAD8D800BAA5C2 /* SCPinAppearance.m in Sources */,
 				3142EDCB1ED727D6002FD5A8 /* LoginViewController.swift in Sources */,
 				3142EDCE1ED72B90002FD5A8 /* DataManager.swift in Sources */,
 				311C99E01EBE097900635674 /* AppDelegate.swift in Sources */,
@@ -424,8 +526,10 @@
 				31564AFF1ED1AFC40048697C /* RootViewController.swift in Sources */,
 				3190D48B1EDF190800CC52F8 /* MBCircularProgressBarLayer.m in Sources */,
 				3190D4801EDEE2ED00CC52F8 /* CheckEmailViewController.swift in Sources */,
+				313BD2031EEADD5C00BAA5C2 /* SCPinViewController.m in Sources */,
 				31564B031ED1B03B0048697C /* MenuNavigationViewController.swift in Sources */,
 				31564B011ED1AFDF0048697C /* MenuViewController.swift in Sources */,
+				31A5EA321EE316FD007F9711 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

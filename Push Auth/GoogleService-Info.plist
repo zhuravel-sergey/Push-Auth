@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>63186838896-reuh4u722efl8ro8c3qcm7a7narmk5dk.apps.googleusercontent.com</string>
+	<string>570795881764-if0tn5fg9mr5kqrv3qj74t1igs5207pa.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.63186838896-reuh4u722efl8ro8c3qcm7a7narmk5dk</string>
+	<string>com.googleusercontent.apps.570795881764-if0tn5fg9mr5kqrv3qj74t1igs5207pa</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAsd3E6XWnxQ3BiQvl87vWQnhDrAuR2yWM</string>
+	<string>AIzaSyBU_fONd91dJQzi8kXxuhGX830bpPsesEk</string>
 	<key>GCM_SENDER_ID</key>
-	<string>63186838896</string>
+	<string>570795881764</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>Sergey-Zhuravel.Push-Auth</string>
 	<key>PROJECT_ID</key>
-	<string>push-auth-7aa82</string>
+	<string>push-auth-c3402</string>
 	<key>STORAGE_BUCKET</key>
-	<string>push-auth-7aa82.appspot.com</string>
+	<string>push-auth-c3402.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true/>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:63186838896:ios:f3bdb294ecdf9b92</string>
+	<string>1:570795881764:ios:f3bdb294ecdf9b92</string>
 	<key>DATABASE_URL</key>
-	<string>https://push-auth-7aa82.firebaseio.com</string>
+	<string>https://push-auth-c3402.firebaseio.com</string>
 </dict>
 </plist>

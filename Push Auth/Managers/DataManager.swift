@@ -12,19 +12,40 @@ struct ConstantsKeys {
     
     static let kStoredFilename = "storedFilename.gtt"
     
-    static let kUserToken  = "userToken"
-    static let kNotificationToken  = "notificationToken"
+    static let kUserPrivateKey  = "userPrivateKey"
+    static let kUserPublicKey  = "userPublicKey"
+    static let kUserEmailKey  = "userEmail"
+    static let kUserPinCodeKey  = "userPinCode"
+    static let kIsShowPasscodeKey  = "isShowPasscode"
 }
 
 class DataManager: NSObject {
     
-    var userToken:String? {
+    var userPublicKey:String? {
         didSet {
             self.saveData()
         }
     }
     
-    var notificationToken:String? {
+    var userPrivateKey:String? {
+        didSet {
+            self.saveData()
+        }
+    }
+    
+    var userEmail:String? {
+        didSet {
+            self.saveData()
+        }
+    }
+    
+    var userPinCode:String? {
+        didSet {
+            self.saveData()
+        }
+    }
+    
+    var isShowPasscode:Bool? {
         didSet {
             self.saveData()
         }
@@ -55,8 +76,11 @@ class DataManager: NSObject {
             
             if let storedSession = NSKeyedUnarchiver.unarchiveObject(withFile: storedFile) as? Dictionary<String, Any> {
                 
-                self.userToken = storedSession[ConstantsKeys.kUserToken] as! String?
-                self.notificationToken = storedSession[ConstantsKeys.kNotificationToken] as! String?
+                self.userPublicKey = storedSession[ConstantsKeys.kUserPublicKey] as! String?
+                self.userPrivateKey = storedSession[ConstantsKeys.kUserPrivateKey] as! String?
+                self.userEmail = storedSession[ConstantsKeys.kUserEmailKey] as! String?
+                self.userPinCode = storedSession[ConstantsKeys.kUserPinCodeKey] as! String?
+                self.isShowPasscode = storedSession[ConstantsKeys.kIsShowPasscodeKey] as! Bool?
             }
         }
     }
@@ -65,18 +89,43 @@ class DataManager: NSObject {
         
         let storedFile = self.filePath()
         
-        if self.userToken == nil {
-            self.userToken = ""
+        if self.userPublicKey == nil {
+            self.userPublicKey = ""
         }
         
-        if self.notificationToken == nil {
-            self.notificationToken = ""
+        if self.userPrivateKey == nil {
+            self.userPrivateKey = ""
         }
         
-        let storedDic = [ConstantsKeys.kUserToken : self.userToken ?? "",
-                         ConstantsKeys.kNotificationToken : self.notificationToken ?? ""] as [String : Any]
+        if self.userEmail == nil {
+            self.userEmail = ""
+        }
+        
+        if self.userPinCode == nil {
+            self.userPinCode = ""
+        }
+        
+        if self.isShowPasscode == nil {
+            self.isShowPasscode = false
+        }
+        
+        let storedDic = [ConstantsKeys.kUserPublicKey : self.userPublicKey ?? "",
+                         ConstantsKeys.kUserPrivateKey : self.userPrivateKey ?? "",
+                         ConstantsKeys.kUserEmailKey : self.userEmail ?? "",
+                         ConstantsKeys.kUserPinCodeKey : self.userPinCode ?? "",
+                         ConstantsKeys.kIsShowPasscodeKey : self.isShowPasscode ?? false] as [String : Any]
         
         NSKeyedArchiver.archiveRootObject(storedDic, toFile: storedFile)
+    }
+    
+    func clearUser() {
+        
+        self.userPublicKey = ""
+        self.userPrivateKey = ""
+        self.userEmail = ""
+        self.userPinCode = ""
+        self.isShowPasscode = false
+        self.saveData()
     }
     
     func filePath() -> String {

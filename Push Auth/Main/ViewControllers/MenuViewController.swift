@@ -14,9 +14,10 @@ class MenuViewController: UIViewController {
     let cellIdentifier = "menuCell"
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var userEmailLabel: UILabel!
     
     let nameArray = ["Main", "Settings", "Log Out"]
-    //let iconArray = ["", ""]
+    let iconArray = ["homeIcon", "settingsIcon", "logoutIcon"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,8 @@ class MenuViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    
+        
+        self.userEmailLabel.text = DataManager.sharedInstance.userEmail
     }
     
     override func didReceiveMemoryWarning() {
@@ -50,7 +52,8 @@ extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
         let cell:MenuTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! MenuTableViewCell
         
         cell.nameLabel.text = self.nameArray[indexPath.row]
-        //cell.iconImageView.image = UIImage.init(named: self.iconArray[indexPath.row])
+        cell.iconImageView.image = UIImage.init(named: self.iconArray[indexPath.row])
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -69,34 +72,21 @@ extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
         
         if indexPath.row == 0 {
             
-            let wearLevelViewController:MainViewController = self.storyboard!.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-            navigationController.viewControllers = [wearLevelViewController]
+            let mainViewController:MainViewController = self.storyboard!.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+            navigationController.viewControllers = [mainViewController]
             
-        }/* else if indexPath.row == 1 {
+        } else if indexPath.row == 1 {
             
-            let baterryDetailsViewController:BaterryDetailsViewController = self.storyboard!.instantiateViewController(withIdentifier: "BaterryDetailsViewController") as! BaterryDetailsViewController
-            navigationController.viewControllers = [baterryDetailsViewController]
+            let settingsViewController:SettingsViewController = self.storyboard!.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+            navigationController.viewControllers = [settingsViewController]
             
         } else if indexPath.row == 2 {
             
-            let deviceInformationViewController:DeviceInformationViewController = self.storyboard!.instantiateViewController(withIdentifier: "DeviceInformationViewController") as! DeviceInformationViewController
-            navigationController.viewControllers = [deviceInformationViewController]
+            DataManager.sharedInstance.clearUser()
             
-        } else if indexPath.row == 3 {
-            
-            let hardwareTestViewController:HardwareTestViewController = self.storyboard!.instantiateViewController(withIdentifier: "HardwareTestViewController") as! HardwareTestViewController
-            navigationController.viewControllers = [hardwareTestViewController]
-            
-        } else if indexPath.row == 5 {
-            
-            let helpViewController:HelpViewController = self.storyboard!.instantiateViewController(withIdentifier: "HelpViewController") as! HelpViewController
-            navigationController.viewControllers = [helpViewController]
-            
-        } else if indexPath.row == 6 {
-            
-            let shareViewController:ShareViewController = self.storyboard!.instantiateViewController(withIdentifier: "ShareViewController") as! ShareViewController
-            navigationController.viewControllers = [shareViewController]
-        } */
+            let mainViewController:MainViewController = self.storyboard!.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+            navigationController.viewControllers = [mainViewController]
+        }
         
         self.frostedViewController.contentViewController = navigationController
         self.frostedViewController.hideMenuViewController()
