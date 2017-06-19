@@ -5,3 +5,4 @@
 #import "MBCircularProgressBarView.h"
 #import "SCPinViewController.h"
 #import "SCPinAppearance.h"
+#import <CommonCrypto/CommonHMAC.h>

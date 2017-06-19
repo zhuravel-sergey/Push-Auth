@@ -180,29 +180,26 @@ class LoginViewController: UIViewController {
             switch response.result {
             case .success:
                 print("Validation Successful")
-                
+
                 if let responseJSON = response.result.value {
                     let JSON = responseJSON as! NSDictionary
                     print("JSON: \(JSON)")
                     
-                    if (JSON["is_access"] != nil) {
-                        if JSON["is_access"] as! Bool {
+                    if response.response?.statusCode == 200 {
+                        
+                        DataManager.sharedInstance.userEmail = self.emailTextField.text
+                        DataManager.sharedInstance.userPublicKey = JSON["public_key"] as? String
+
+                    } else {
+                        if JSON["message"] as! String == "Please check your email for confirmation!" {
                             
-                            DataManager.sharedInstance.userEmail = self.emailTextField.text
-                            DataManager.sharedInstance.userPublicKey = JSON["public_key"] as? String
-                            //self.dismiss(animated: true, completion: nil)
+                            self.actIndicator.stopAnimating()
+                            self.loginButton.isEnabled = true
                             
-                        } else {
-                            if JSON["message"] as! String == "Please check your email for confirmation!" {
-                                
-                                self.actIndicator.stopAnimating()
-                                self.loginButton.isEnabled = true
-                                
-                                self.showCheckEmailPopUp()
-                            } else if JSON["message"] as! String == "Validating error: The device token field is required." {
-                                
-                                self.requestLogin()
-                            }
+                            self.showCheckEmailPopUp()
+                        } else if JSON["message"] as! String == "Validating error: The device token field is required." {
+                            
+                            self.requestLogin()
                         }
                     }
                 }

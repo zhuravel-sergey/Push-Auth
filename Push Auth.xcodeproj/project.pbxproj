@@ -48,6 +48,8 @@
 		3190D48C1EDF190800CC52F8 /* MBCircularProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3190D48A1EDF190800CC52F8 /* MBCircularProgressBarView.m */; };
 		31A5EA301EE2D026007F9711 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31A5EA2F1EE2D026007F9711 /* GoogleService-Info.plist */; };
 		31A5EA321EE316FD007F9711 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A5EA311EE316FD007F9711 /* SettingsViewController.swift */; };
+		31C3A6C31EF5916B00E4D23A /* Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C3A6C21EF5916B00E4D23A /* Push.swift */; };
+		31CF89121EF43C6F007C67C5 /* PushCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CF89111EF43C6F007C67C5 /* PushCollectionViewCell.swift */; };
 		92D42E93E095F4960E18D28A /* Pods_Push_Auth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF2AB32BD212D95D5F6689B7 /* Pods_Push_Auth.framework */; };
 /* End PBXBuildFile section */
 
@@ -102,6 +104,8 @@
 		3190D48A1EDF190800CC52F8 /* MBCircularProgressBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBCircularProgressBarView.m; path = Library/MBCircularProgressBar/MBCircularProgressBarView.m; sourceTree = "<group>"; };
 		31A5EA2F1EE2D026007F9711 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		31A5EA311EE316FD007F9711 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = Main/ViewControllers/SettingsViewController.swift; sourceTree = "<group>"; };
+		31C3A6C21EF5916B00E4D23A /* Push.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Push.swift; path = Main/Model/Push.swift; sourceTree = "<group>"; };
+		31CF89111EF43C6F007C67C5 /* PushCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushCollectionViewCell.swift; path = Main/Cells/PushCollectionViewCell.swift; sourceTree = "<group>"; };
 		31ED6A601EDDB8C3008CDCB9 /* Push Auth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Push Auth.entitlements"; sourceTree = "<group>"; };
 		611F5CBFF6AB1052003C9AF5 /* Pods-Push Auth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Push Auth.release.xcconfig"; path = "Pods/Target Support Files/Pods-Push Auth/Pods-Push Auth.release.xcconfig"; sourceTree = "<group>"; };
 		DF2AB32BD212D95D5F6689B7 /* Pods_Push_Auth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Push_Auth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -256,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				31564B221ED1D5140048697C /* MenuTableViewCell.swift */,
+				31CF89111EF43C6F007C67C5 /* PushCollectionViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -263,6 +268,7 @@
 		31564AFA1ED1ADEF0048697C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				31C3A6C21EF5916B00E4D23A /* Push.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -519,6 +525,7 @@
 				313BD1FC1EEAD90600BAA5C2 /* SCPinButton.m in Sources */,
 				313BD1EB1EEAD8D800BAA5C2 /* SCPinAppearance.m in Sources */,
 				3142EDCB1ED727D6002FD5A8 /* LoginViewController.swift in Sources */,
+				31CF89121EF43C6F007C67C5 /* PushCollectionViewCell.swift in Sources */,
 				3142EDCE1ED72B90002FD5A8 /* DataManager.swift in Sources */,
 				311C99E01EBE097900635674 /* AppDelegate.swift in Sources */,
 				31564AFD1ED1AE9D0048697C /* MainViewController.swift in Sources */,
@@ -526,6 +533,7 @@
 				31564AFF1ED1AFC40048697C /* RootViewController.swift in Sources */,
 				3190D48B1EDF190800CC52F8 /* MBCircularProgressBarLayer.m in Sources */,
 				3190D4801EDEE2ED00CC52F8 /* CheckEmailViewController.swift in Sources */,
+				31C3A6C31EF5916B00E4D23A /* Push.swift in Sources */,
 				313BD2031EEADD5C00BAA5C2 /* SCPinViewController.m in Sources */,
 				31564B031ED1B03B0048697C /* MenuNavigationViewController.swift in Sources */,
 				31564B011ED1AFDF0048697C /* MenuViewController.swift in Sources */,

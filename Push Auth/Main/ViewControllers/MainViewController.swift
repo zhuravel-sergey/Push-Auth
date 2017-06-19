@@ -8,23 +8,41 @@
 
 import UIKit
 import LocalAuthentication
+import Alamofire
+import CryptoSwift
+import SwiftyJSON
+import UPCarouselFlowLayout
+
+let cellIdentifier = "pushCell"
 
 class MainViewController: UIViewController {
-
-    @IBOutlet weak var requestBackGroudnView: UIView!
-    @IBOutlet weak var serviceNameLabel: UILabel!
-    @IBOutlet weak var progressBarView: MBCircularProgressBarView!
-    @IBOutlet weak var yesButton: UIButton!
-    @IBOutlet weak var noButton: UIButton!
+    
+    @IBOutlet weak var pushCollectionViewCenterConstraint: NSLayoutConstraint!
+    @IBOutlet weak var pushCollectionView: UICollectionView!
+    @IBOutlet weak var readyForPushLabel: UILabel!
+    @IBOutlet weak var logoClear: UIImageView!
+    @IBOutlet weak var newPushLabel: UILabel!
     
     let actIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+    var dataPushArray: Array<Push> = []
+    var timerCount:CGFloat = 0
+    var timeTimer:Timer! = Timer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.pushCollectionView.delegate = self
+        self.pushCollectionView.dataSource = self
+        
+        let layout = UPCarouselFlowLayout()
+        layout.itemSize = CGSize.init(width: 260, height: 331)
+        layout.scrollDirection = .horizontal
+        self.pushCollectionView.collectionViewLayout = layout
+
         self.setupUserInterface()
         
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.showPasscodeVC), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.requestGetPush), name: NSNotification.Name(rawValue: "PushRequest"), object: nil)
 
         if DataManager.sharedInstance.userPublicKey == nil || DataManager.sharedInstance.userPublicKey == "" || DataManager.sharedInstance.userPrivateKey == nil || DataManager.sharedInstance.userPrivateKey == "" {
             
@@ -65,25 +83,12 @@ class MainViewController: UIViewController {
     
     func setupUserInterface() {
         
+        //self.pushCollectionViewCenterConstraint.constant = -600;
+        
         self.actIndicator.center = view.center
         view.addSubview(self.actIndicator)
         
-        self.requestBackGroudnView.layer.masksToBounds = true
-        self.requestBackGroudnView.layer.cornerRadius = 10
-        
-        let shadowPath = UIBezierPath(rect: CGRect(x: 0, y: 0, width: self.view.frame.size.width - 48, height: self.requestBackGroudnView.frame.height))
-        self.requestBackGroudnView.layer.shadowColor = UIColor.black.cgColor
-        self.requestBackGroudnView.layer.shadowOffset = CGSize(width: 0, height: 25)
-        self.requestBackGroudnView.layer.shadowOpacity = 0.5
-        self.requestBackGroudnView.layer.shadowRadius = 10.0
-        self.requestBackGroudnView.layer.masksToBounds =  false
-        self.requestBackGroudnView.layer.shadowPath = shadowPath.cgPath
-        
-        self.yesButton.layer.masksToBounds = true
-        self.yesButton.layer.cornerRadius = 26.5
-        
-        self.noButton.layer.masksToBounds = true
-        self.noButton.layer.cornerRadius = 26.5
+        self.newPushLabel.isHidden = true
     }
     
     func imageFromColor(color: UIColor, frame: CGRect) -> UIImage {
@@ -101,16 +106,6 @@ class MainViewController: UIViewController {
     @IBAction func actionMenuButton(_ sender: Any) {
         
         self.frostedViewController.presentMenuViewController()
-    }
-    
-    @IBAction func actionYesButton(_ sender: UIButton) {
-        
-        
-    }
-    
-    @IBAction func actionNoButton(_ sender: UIButton) {
-        
-        
     }
     
     //MARK: Show Passcode VC
@@ -149,6 +144,8 @@ class MainViewController: UIViewController {
                 self.showCreatePasscodeVC()
             }
         }
+        
+        self.requestGetPush()
     }
     
     func showCreatePasscodeVC() {
@@ -170,6 +167,308 @@ class MainViewController: UIViewController {
         let vc = SCPinViewController.init(scope: .create)
         vc!.createDelegate = self
         self.present(vc!, animated: false, completion: nil)
+    }
+    
+    //MARK: Webservice
+    
+    func requestGetPush() {
+        
+        self.actIndicator.startAnimating()
+        self.dataPushArray.removeAll()
+        
+        if self.timeTimer != nil {
+            self.timeTimer.invalidate()
+            self.timeTimer = nil
+        }
+        
+        let parameters: Parameters = ["pk": DataManager.sharedInstance.userPublicKey ?? "",
+                                      "data" : self.generateDataHash()]
+        
+        let headers = ["Content-Type": "application/json"]
+        
+        Alamofire.request("https://api.pushauth.io/push/index", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
+            print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
+            print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
+            print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
+            
+            switch response.result {
+            case .success:
+                print("Validation Successful")
+                
+                if let responseJSON = response.result.value {
+                    let JSONdata = responseJSON as! NSDictionary
+                    print("JSON: \(JSONdata)")
+                    
+                    if response.response?.statusCode == 200 {
+                        
+                        let arrayData = (JSONdata["data"] as! String).components(separatedBy: ".")
+
+                        if arrayData[1] == self.generateHmacWithJson(json: arrayData[0]) {
+                            let json = self.convertToDictionary(text: arrayData[0].fromBase64()!)
+                            print("json", json ?? "")
+
+                            if !((json?["total"] as! Int) == 0) {
+                                if let pushArray = json?["index"] as? [[String:Any]] {
+                                    for pushObj in pushArray {
+                                        
+                                        print(pushObj)
+                                        
+                                        let push = Push(hashRequest: pushObj["req_hash"] as? String ?? "", mode: pushObj["mode"] as? String ?? "", code: pushObj["code"] as? String ?? "", appName: pushObj["app_name"] as? String ?? "")
+                                        
+                                        self.dataPushArray.append(push)
+                                    }
+                                    
+                                    self.newPushLabel.isHidden = false
+                                    self.pushCollectionView.reloadData()
+                                    self.logoClear.isHidden = true
+                                    self.readyForPushLabel.isHidden = true
+
+                                    self.timerCount = 0
+                                    self.timeTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.timeTimerChanged), userInfo: nil, repeats: true)
+                                }
+                            }
+                        }
+                        
+                    } else {
+                       
+                    }
+                }
+                
+                self.actIndicator.stopAnimating()
+            case .failure(let error):
+                
+                self.showAlert(title: "Error", message: "No internet connection.")
+                self.actIndicator.stopAnimating()
+                print("Error login", error)
+            }
+        }
+    }
+    
+    func requestAnswerPush(index: Int, answer: Bool) {
+
+        self.actIndicator.startAnimating()
+        self.pushCollectionView.isUserInteractionEnabled = false
+        
+        let push = self.dataPushArray[index]
+        let json = ["hash":push.hashRequest, "answer": answer] as [String: Any]
+        let jsonBase64 = self.dictionaryToBase64(dict: json)
+        
+        let data = jsonBase64 + "." + self.generateHmacWithJson(json: jsonBase64)
+        
+        let parameters: Parameters = ["pk": DataManager.sharedInstance.userPublicKey ?? "",
+                                      "data" : data]
+        
+        let headers = ["Content-Type": "application/json"]
+        
+        Alamofire.request("https://api.pushauth.io/push/answer", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
+            print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
+            print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
+            print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
+            
+            switch response.result {
+            case .success:
+                print("Validation Successful")
+                
+                if let responseJSON = response.result.value {
+                    let JSONdata = responseJSON as! NSDictionary
+                    print("JSON: \(JSONdata)")
+                    
+                    if response.response?.statusCode == 200 {
+                        
+                        self.dataPushArray.remove(at: index)
+                        self.pushCollectionView.reloadData()
+                        
+                        if self.dataPushArray.count == 0 {
+                            self.newPushLabel.isHidden = true
+                            self.logoClear.isHidden = false
+                            self.readyForPushLabel.isHidden = false
+                        }
+                    } else {
+                        
+                    }
+                }
+                
+                self.pushCollectionView.isUserInteractionEnabled = true
+                self.actIndicator.stopAnimating()
+            case .failure(let error):
+                
+                self.showAlert(title: "Error", message: "No internet connection.")
+                self.actIndicator.stopAnimating()
+                self.pushCollectionView.isUserInteractionEnabled = true
+                print("Error login", error)
+            }
+        }
+    }
+    
+    func convertToDictionary(text: String) -> [String: Any]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+    
+    func dictionaryToBase64(dict: [String: Any]) -> String {
+
+        do {
+            let jsonData: Data = try JSONSerialization.data(withJSONObject:dict,options: JSONSerialization.WritingOptions.prettyPrinted)
+            return jsonData.base64EncodedString()
+        } catch {
+            print(error.localizedDescription)
+        }
+        return ""
+    }
+    
+    //MARK: Timer
+    
+    func timeTimerChanged(_ timer:CADisplayLink) {
+        
+        self.timerCount += 0.1
+        
+        if Float(self.timerCount) == 30.0 {
+            
+            if self.timeTimer != nil {
+                self.timeTimer.invalidate()
+                self.timeTimer = nil
+                
+                self.dataPushArray.removeAll()
+                self.pushCollectionView.reloadData()
+                self.newPushLabel.isHidden = true
+                self.logoClear.isHidden = false
+                self.readyForPushLabel.isHidden = false
+            }
+        }
+        
+        self.pushCollectionView.reloadData()
+    }
+    
+    //MARK: Alert
+    
+    func showAlert(title:String, message:String) {
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            (result : UIAlertAction) -> Void in
+            print("You pressed OK")
+        }
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    //MARK: Data Hash
+    
+    func generateDataHash() -> String {
+        
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        let len = UInt32(letters.length)
+        
+        var randomString = ""
+        
+        for _ in 0 ..< 32 {
+            let rand = arc4random_uniform(len)
+            var nextChar = letters.character(at: Int(rand))
+            randomString += NSString(characters: &nextChar, length: 1) as String
+        }
+        
+        let randomStringBase64 = randomString.toBase64()
+        
+        let str: [UInt8] = Array(randomStringBase64.utf8)
+        let key: [UInt8] = Array(DataManager.sharedInstance.userPrivateKey!.utf8)
+        
+        let hmac: [UInt8] = try! HMAC(key: key, variant: .sha256).authenticate(str)
+        
+        let result = hmac.toBase64()!
+        
+        return String(format: randomStringBase64 + "." + result)
+    }
+    
+    func generateHmacWithJson(json: String) -> String {
+        
+        let str: [UInt8] = Array(json.utf8)
+        let key: [UInt8] = Array(DataManager.sharedInstance.userPrivateKey!.utf8)
+        
+        let hmac: [UInt8] = try! HMAC(key: key, variant: .sha256).authenticate(str)
+        
+        return hmac.toBase64()!
+    }
+}
+
+extension String {
+
+    func fromBase64() -> String? {
+        guard let data = Data(base64Encoded: self) else {
+            return nil
+        }
+        
+        return String(data: data, encoding: .utf8)
+    }
+    
+    func toBase64() -> String {
+        return Data(self.utf8).base64EncodedString()
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    
+    //MARK: UICollectionViewDelegate
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+    }
+}
+
+extension MainViewController: UICollectionViewDataSource {
+    
+    //MARK: UICollectionViewDataSource
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.dataPushArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let push = self.dataPushArray[indexPath.row]
+
+        if push.mode == "push" {
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! PushCollectionViewCell
+            
+            cell.serviceNameLabel.text = push.appName
+            cell.indexCell = indexPath.row
+            
+            UIView.animate(withDuration: 0.05, animations: {
+                cell.progressBarView.value = self.timerCount
+            })
+            
+            cell.actionYesButtonBlock = { (sender, index) in
+
+                self.requestAnswerPush(index: index, answer: true)
+            }
+            
+            cell.actionNoButtonBlock = { (sender, index) in
+                
+                self.requestAnswerPush(index: index, answer: false)
+            }
+            
+            return cell
+        } else if push.mode == "code" {
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! PushCollectionViewCell
+            
+            cell.serviceNameLabel.text = push.appName
+            
+            UIView.animate(withDuration: 0.05, animations: {
+                cell.progressBarView.value = self.timerCount
+                
+            })
+            
+            return cell
+        } else {
+            return UICollectionViewCell.init()
+        }
     }
 }
 
