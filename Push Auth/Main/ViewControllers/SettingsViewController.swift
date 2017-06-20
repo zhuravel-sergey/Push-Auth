@@ -11,12 +11,12 @@ import UIKit
 class SettingsViewController: UIViewController {
 
     @IBOutlet weak var changePinCodeButton: UIButton!
+    @IBOutlet weak var touchIdSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setupUserInterface()
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,6 +49,7 @@ class SettingsViewController: UIViewController {
         self.changePinCodeButton.layer.borderWidth = 1
         self.changePinCodeButton.layer.borderColor = UIColor.white.cgColor
         
+        self.touchIdSwitch.isOn = DataManager.sharedInstance.isTouchIdEnable!
     }
     
     //MARK: Actions
@@ -81,7 +82,7 @@ class SettingsViewController: UIViewController {
     
     @IBAction func changeValueTouchIdSwitch(_ sender: UISwitch) {
         
-        
+        DataManager.sharedInstance.isTouchIdEnable = sender.isOn
     }
 }
 

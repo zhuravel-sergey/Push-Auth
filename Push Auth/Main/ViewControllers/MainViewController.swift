@@ -13,7 +13,8 @@ import CryptoSwift
 import SwiftyJSON
 import UPCarouselFlowLayout
 
-let cellIdentifier = "pushCell"
+let pushCellIdentifier = "pushCell"
+let codeCellIdentifier = "codeCell"
 
 class MainViewController: UIViewController {
     
@@ -54,6 +55,12 @@ class MainViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 self.present(vc!, animated: false, completion: nil)
             }
+        }
+        
+        if !(DataManager.sharedInstance.isFirstLaunch!) {
+            DataManager.sharedInstance.isFirstLaunch = true
+            
+            DataManager.sharedInstance.isTouchIdEnable = false
         }
     }
 
@@ -108,6 +115,18 @@ class MainViewController: UIViewController {
         self.frostedViewController.presentMenuViewController()
     }
     
+    func actionCodeOkButton(index: Int) {
+        
+        self.dataPushArray.remove(at: index)
+        self.pushCollectionView.reloadData()
+        
+        if self.dataPushArray.count == 0 {
+            self.newPushLabel.isHidden = true
+            self.logoClear.isHidden = false
+            self.readyForPushLabel.isHidden = false
+        }
+    }
+    
     //MARK: Show Passcode VC
     
     func showPasscodeVC() {
@@ -123,13 +142,19 @@ class MainViewController: UIViewController {
             appearance?.pinFillColor = UIColor.clear
             appearance?.pinHighlightedColor = UIColor.white
             appearance?.pinStrokeColor = UIColor.white
-            appearance?.touchIDButtonEnabled = false
             appearance?.titleTextColor = UIColor.white
             appearance?.supportTextColor = UIColor.white
-            appearance?.touchIDButtonEnabled = true
             appearance?.touchIDButtonColor = UIColor.white
             appearance?.touchIDText = "Enter your passcode"
             appearance?.touchIDVerification = "Enter your passcode"
+            
+            if DataManager.sharedInstance.isTouchIdEnable! {
+                appearance?.touchIDButtonEnabled = true
+                
+            } else {
+                appearance?.touchIDButtonEnabled = false
+            }
+            
             SCPinViewController.setNewAppearance(appearance)
             
             let vc = SCPinViewController.init(scope: .validate)
@@ -175,6 +200,9 @@ class MainViewController: UIViewController {
         
         self.actIndicator.startAnimating()
         self.dataPushArray.removeAll()
+        self.newPushLabel.isHidden = true
+        self.logoClear.isHidden = false
+        self.readyForPushLabel.isHidden = false
         
         if self.timeTimer != nil {
             self.timeTimer.invalidate()
@@ -222,9 +250,13 @@ class MainViewController: UIViewController {
                                     self.pushCollectionView.reloadData()
                                     self.logoClear.isHidden = true
                                     self.readyForPushLabel.isHidden = true
-
-                                    self.timerCount = 0
-                                    self.timeTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.timeTimerChanged), userInfo: nil, repeats: true)
+                                    
+                                    if self.timeTimer == nil {
+                                        self.timerCount = 0
+                                        
+                                        self.timeTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.timeTimerChanged), userInfo: nil, repeats: true)
+                                        RunLoop.current.add(self.timeTimer, forMode: RunLoopMode.commonModes)
+                                    }
                                 }
                             }
                         }
@@ -328,11 +360,17 @@ class MainViewController: UIViewController {
         
         self.timerCount += 0.1
         
-        if Float(self.timerCount) == 30.0 {
+        if Float(self.timerCount) == 30.0 || Float(self.timerCount) > 30.0 {
             
             if self.timeTimer != nil {
-                self.timeTimer.invalidate()
-                self.timeTimer = nil
+                
+                DispatchQueue.global(qos: .userInitiated).async {
+                    DispatchQueue.main.async {
+                        self.timeTimer.invalidate()
+                        self.timeTimer = Timer.scheduledTimer(timeInterval: 9999, target: self, selector: #selector(self.timeTimerChanged), userInfo: nil, repeats: false)
+                        self.timeTimer = nil
+                    }
+                }
                 
                 self.dataPushArray.removeAll()
                 self.pushCollectionView.reloadData()
@@ -341,6 +379,8 @@ class MainViewController: UIViewController {
                 self.readyForPushLabel.isHidden = false
             }
         }
+        
+        print("timer", self.timerCount)
         
         self.pushCollectionView.reloadData()
     }
@@ -434,7 +474,7 @@ extension MainViewController: UICollectionViewDataSource {
 
         if push.mode == "push" {
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! PushCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: pushCellIdentifier, for: indexPath) as! PushCollectionViewCell
             
             cell.serviceNameLabel.text = push.appName
             cell.indexCell = indexPath.row
@@ -456,14 +496,20 @@ extension MainViewController: UICollectionViewDataSource {
             return cell
         } else if push.mode == "code" {
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! PushCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: codeCellIdentifier, for: indexPath) as! CodeCollectionViewCell
             
             cell.serviceNameLabel.text = push.appName
-            
+            cell.indexCell = indexPath.row
+            cell.codeLabel.text = push.code
+
             UIView.animate(withDuration: 0.05, animations: {
                 cell.progressBarView.value = self.timerCount
-                
             })
+            
+            cell.actionOkButtonBlock = { (sender, index) in
+                
+                self.actionCodeOkButton(index: index)
+            }
             
             return cell
         } else {

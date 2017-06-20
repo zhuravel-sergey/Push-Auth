@@ -43,6 +43,7 @@
 		31564B201ED1B2340048697C /* SF-UI-Text-Ultrathin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31564B121ED1B2340048697C /* SF-UI-Text-Ultrathin.otf */; };
 		31564B211ED1B2340048697C /* SF-UI-Text-UltrathinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31564B131ED1B2340048697C /* SF-UI-Text-UltrathinItalic.otf */; };
 		31564B231ED1D5140048697C /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31564B221ED1D5140048697C /* MenuTableViewCell.swift */; };
+		3182777D1EF950A600890AD8 /* CodeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3182777C1EF950A600890AD8 /* CodeCollectionViewCell.swift */; };
 		3190D4801EDEE2ED00CC52F8 /* CheckEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3190D47F1EDEE2ED00CC52F8 /* CheckEmailViewController.swift */; };
 		3190D48B1EDF190800CC52F8 /* MBCircularProgressBarLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3190D4881EDF190800CC52F8 /* MBCircularProgressBarLayer.m */; };
 		3190D48C1EDF190800CC52F8 /* MBCircularProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3190D48A1EDF190800CC52F8 /* MBCircularProgressBarView.m */; };
@@ -96,6 +97,7 @@
 		31564B121ED1B2340048697C /* SF-UI-Text-Ultrathin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Text-Ultrathin.otf"; path = "Fonts/SF/SF-UI-Text-Ultrathin.otf"; sourceTree = "<group>"; };
 		31564B131ED1B2340048697C /* SF-UI-Text-UltrathinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Text-UltrathinItalic.otf"; path = "Fonts/SF/SF-UI-Text-UltrathinItalic.otf"; sourceTree = "<group>"; };
 		31564B221ED1D5140048697C /* MenuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuTableViewCell.swift; path = Main/Cells/MenuTableViewCell.swift; sourceTree = "<group>"; };
+		3182777C1EF950A600890AD8 /* CodeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CodeCollectionViewCell.swift; path = Main/Cells/CodeCollectionViewCell.swift; sourceTree = "<group>"; };
 		3190D47F1EDEE2ED00CC52F8 /* CheckEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckEmailViewController.swift; path = Main/ViewControllers/PopUp/CheckEmailViewController.swift; sourceTree = "<group>"; };
 		3190D4811EDF15B700CC52F8 /* Push Auth-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Push Auth-Bridging-Header.h"; sourceTree = "<group>"; };
 		3190D4871EDF190800CC52F8 /* MBCircularProgressBarLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBCircularProgressBarLayer.h; path = Library/MBCircularProgressBar/MBCircularProgressBarLayer.h; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 			children = (
 				31564B221ED1D5140048697C /* MenuTableViewCell.swift */,
 				31CF89111EF43C6F007C67C5 /* PushCollectionViewCell.swift */,
+				3182777C1EF950A600890AD8 /* CodeCollectionViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -536,6 +539,7 @@
 				31C3A6C31EF5916B00E4D23A /* Push.swift in Sources */,
 				313BD2031EEADD5C00BAA5C2 /* SCPinViewController.m in Sources */,
 				31564B031ED1B03B0048697C /* MenuNavigationViewController.swift in Sources */,
+				3182777D1EF950A600890AD8 /* CodeCollectionViewCell.swift in Sources */,
 				31564B011ED1AFDF0048697C /* MenuViewController.swift in Sources */,
 				31A5EA321EE316FD007F9711 /* SettingsViewController.swift in Sources */,
 			);

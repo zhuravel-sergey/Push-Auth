@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 DataManager.sharedInstance.userPrivateKey = pushData["private_key"] as? String
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "PushAuth"), object: nil)
                 
-            } else if pushData["mode"] as! String == "push" {
+            } else if pushData["mode"] as! String == "push" || pushData["mode"] as! String == "code" {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "PushRequest"), object: nil)
             }
         }
