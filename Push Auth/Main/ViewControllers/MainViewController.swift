@@ -28,6 +28,7 @@ class MainViewController: UIViewController {
     var dataPushArray: Array<Push> = []
     var timerCount:CGFloat = 0
     var timeTimer:Timer! = Timer()
+    var isSendRequest:Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,9 +90,7 @@ class MainViewController: UIViewController {
     //MARK: Setup Interface
     
     func setupUserInterface() {
-        
-        //self.pushCollectionViewCenterConstraint.constant = -600;
-        
+                
         self.actIndicator.center = view.center
         view.addSubview(self.actIndicator)
         
@@ -170,7 +169,9 @@ class MainViewController: UIViewController {
             }
         }
         
-        self.requestGetPush()
+        if !self.isSendRequest {
+            self.requestGetPush()
+        }
     }
     
     func showCreatePasscodeVC() {
@@ -203,6 +204,7 @@ class MainViewController: UIViewController {
         self.newPushLabel.isHidden = true
         self.logoClear.isHidden = false
         self.readyForPushLabel.isHidden = false
+        self.isSendRequest = true
         
         if self.timeTimer != nil {
             self.timeTimer.invalidate()
@@ -246,11 +248,6 @@ class MainViewController: UIViewController {
                                         self.dataPushArray.append(push)
                                     }
                                     
-                                    self.newPushLabel.isHidden = false
-                                    self.pushCollectionView.reloadData()
-                                    self.logoClear.isHidden = true
-                                    self.readyForPushLabel.isHidden = true
-                                    
                                     if self.timeTimer == nil {
                                         self.timerCount = 0
                                         
@@ -266,11 +263,24 @@ class MainViewController: UIViewController {
                     }
                 }
                 
+                if !(self.dataPushArray.count == 0) {
+                    
+                    self.newPushLabel.isHidden = false
+                    self.pushCollectionView.reloadData()
+                    self.logoClear.isHidden = true
+                    self.readyForPushLabel.isHidden = true
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.isSendRequest = false
+                }
+                
                 self.actIndicator.stopAnimating()
             case .failure(let error):
                 
                 self.showAlert(title: "Error", message: "No internet connection.")
                 self.actIndicator.stopAnimating()
+                self.isSendRequest = false
                 print("Error login", error)
             }
         }
