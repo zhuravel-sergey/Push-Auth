@@ -58,20 +58,24 @@ class SettingsViewController: UIViewController {
         
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             self.touchIdView.isHidden = false
+            
+            let contextAuth = LAContext()
+            var errorAuth: NSError?
+            
+            if contextAuth.canEvaluatePolicy(.deviceOwnerAuthentication, error: &errorAuth) {
+                self.touchIdView.isHidden = false
+                
+            } else {
+                self.touchIdView.isHidden = true
+            }
+            
+            print(errorAuth ?? "")
 
         } else {
             self.touchIdView.isHidden = true
         }
         
-        let contextAuth = LAContext()
-        var errorAuth: NSError?
-        
-        if contextAuth.canEvaluatePolicy(.deviceOwnerAuthentication, error: &errorAuth) {
-            self.touchIdView.isHidden = false
-            
-        } else {
-            self.touchIdView.isHidden = true
-        }
+        print(error ?? "")
     }
     
     //MARK: Actions
