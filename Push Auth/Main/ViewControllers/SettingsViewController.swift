@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import LocalAuthentication
 
 class SettingsViewController: UIViewController {
 
     @IBOutlet weak var changePinCodeButton: UIButton!
     @IBOutlet weak var touchIdSwitch: UISwitch!
+    @IBOutlet weak var touchIdView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +52,26 @@ class SettingsViewController: UIViewController {
         self.changePinCodeButton.layer.borderColor = UIColor.white.cgColor
         
         self.touchIdSwitch.isOn = DataManager.sharedInstance.isTouchIdEnable!
+        
+        let context = LAContext()
+        var error: NSError?
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            self.touchIdView.isHidden = false
+
+        } else {
+            self.touchIdView.isHidden = true
+        }
+        
+        let contextAuth = LAContext()
+        var errorAuth: NSError?
+        
+        if contextAuth.canEvaluatePolicy(.deviceOwnerAuthentication, error: &errorAuth) {
+            self.touchIdView.isHidden = false
+            
+        } else {
+            self.touchIdView.isHidden = true
+        }
     }
     
     //MARK: Actions

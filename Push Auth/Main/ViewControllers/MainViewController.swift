@@ -26,7 +26,6 @@ class MainViewController: UIViewController {
     
     let actIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
     var dataPushArray: Array<Push> = []
-    var timerCount:CGFloat = 0
     var timeTimer:Timer! = Timer()
     var isSendRequest:Bool = false
 
@@ -36,15 +35,17 @@ class MainViewController: UIViewController {
         self.pushCollectionView.delegate = self
         self.pushCollectionView.dataSource = self
         
+        if self.timeTimer == nil {
+            self.timeTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.timeTimerChanged), userInfo: nil, repeats: true)
+            RunLoop.current.add(self.timeTimer, forMode: RunLoopMode.commonModes)
+        }
+        
         let layout = UPCarouselFlowLayout()
         layout.itemSize = CGSize.init(width: 260, height: 331)
         layout.scrollDirection = .horizontal
         self.pushCollectionView.collectionViewLayout = layout
 
         self.setupUserInterface()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.showPasscodeVC), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.requestGetPush), name: NSNotification.Name(rawValue: "PushRequest"), object: nil)
 
         if DataManager.sharedInstance.userPublicKey == nil || DataManager.sharedInstance.userPublicKey == "" || DataManager.sharedInstance.userPrivateKey == nil || DataManager.sharedInstance.userPrivateKey == "" {
             
@@ -63,6 +64,11 @@ class MainViewController: UIViewController {
             
             DataManager.sharedInstance.isTouchIdEnable = false
         }
+
+        if DataManager.sharedInstance.userPrivateKey != nil && !(DataManager.sharedInstance.userPrivateKey == "") && DataManager.sharedInstance.userPublicKey != nil && !(DataManager.sharedInstance.userPublicKey == "") {
+            
+            self.showPasscodeVC()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,16 +81,20 @@ class MainViewController: UIViewController {
         
         self.navigationController?.navigationBar.setBackgroundImage(self.imageFromColor(color: UIColor.clear, frame: CGRect.init(x: 0, y: 0, width: self.view.frame.size.width, height: 64)), for: .default)
         
-        if DataManager.sharedInstance.userPrivateKey != nil && !(DataManager.sharedInstance.userPrivateKey == "") && DataManager.sharedInstance.userPublicKey != nil && !(DataManager.sharedInstance.userPublicKey == "") {
-            
-            self.showPasscodeVC()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.showPasscodeVC), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.requestGetPush), name: NSNotification.Name(rawValue: "PushRequest"), object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
-        //NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: Setup Interface
@@ -200,16 +210,11 @@ class MainViewController: UIViewController {
     func requestGetPush() {
         
         self.actIndicator.startAnimating()
-        self.dataPushArray.removeAll()
         self.newPushLabel.isHidden = true
         self.logoClear.isHidden = false
         self.readyForPushLabel.isHidden = false
         self.isSendRequest = true
-        
-        if self.timeTimer != nil {
-            self.timeTimer.invalidate()
-            self.timeTimer = nil
-        }
+        self.pushCollectionView.reloadData()
         
         let parameters: Parameters = ["pk": DataManager.sharedInstance.userPublicKey ?? "",
                                       "data" : self.generateDataHash()]
@@ -243,16 +248,9 @@ class MainViewController: UIViewController {
                                         
                                         print(pushObj)
                                         
-                                        let push = Push(hashRequest: pushObj["req_hash"] as? String ?? "", mode: pushObj["mode"] as? String ?? "", code: pushObj["code"] as? String ?? "", appName: pushObj["app_name"] as? String ?? "")
+                                        let push = Push(hashRequest: pushObj["req_hash"] as? String ?? "", mode: pushObj["mode"] as? String ?? "", code: pushObj["code"] as? String ?? "", appName: pushObj["app_name"] as? String ?? "", time: 0)
                                         
                                         self.dataPushArray.append(push)
-                                    }
-                                    
-                                    if self.timeTimer == nil {
-                                        self.timerCount = 0
-                                        
-                                        self.timeTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.timeTimerChanged), userInfo: nil, repeats: true)
-                                        RunLoop.current.add(self.timeTimer, forMode: RunLoopMode.commonModes)
                                     }
                                 }
                             }
@@ -368,31 +366,30 @@ class MainViewController: UIViewController {
     
     func timeTimerChanged(_ timer:CADisplayLink) {
         
-        self.timerCount += 0.1
-        
-        if Float(self.timerCount) == 30.0 || Float(self.timerCount) > 30.0 {
+        if !(self.dataPushArray.count == 0) {
             
-            if self.timeTimer != nil {
-                
-                DispatchQueue.global(qos: .userInitiated).async {
-                    DispatchQueue.main.async {
-                        self.timeTimer.invalidate()
-                        self.timeTimer = Timer.scheduledTimer(timeInterval: 9999, target: self, selector: #selector(self.timeTimerChanged), userInfo: nil, repeats: false)
-                        self.timeTimer = nil
-                    }
-                }
-                
-                self.dataPushArray.removeAll()
-                self.pushCollectionView.reloadData()
-                self.newPushLabel.isHidden = true
-                self.logoClear.isHidden = false
-                self.readyForPushLabel.isHidden = false
+            for (index, _) in self.dataPushArray.enumerated() {
+
+                self.dataPushArray[index].time += 0.1
             }
+            
+            for push in self.dataPushArray {
+                
+                if push.time == 30.0 || push.time > 30.0 {
+                    self.dataPushArray.remove(push)
+                }
+            }
+            
+            self.pushCollectionView.reloadData()
+            self.newPushLabel.isHidden = false
+            self.logoClear.isHidden = true
+            self.readyForPushLabel.isHidden = true
+            
+        } else {
+            self.newPushLabel.isHidden = true
+            self.logoClear.isHidden = false
+            self.readyForPushLabel.isHidden = false
         }
-        
-        print("timer", self.timerCount)
-        
-        self.pushCollectionView.reloadData()
     }
     
     //MARK: Alert
@@ -461,6 +458,25 @@ extension String {
     }
 }
 
+extension Array where Element:Equatable {
+    public mutating func remove(_ item:Element ) {
+        var index = 0
+        while index < self.count {
+            if self[index] == item {
+                self.remove(at: index)
+            } else {
+                index += 1
+            }
+        }
+    }
+    
+    public func array( removing item:Element ) -> [Element] {
+        var result = self
+        result.remove( item )
+        return result
+    }
+}
+
 extension MainViewController: UICollectionViewDelegate {
     
     //MARK: UICollectionViewDelegate
@@ -488,11 +504,8 @@ extension MainViewController: UICollectionViewDataSource {
             
             cell.serviceNameLabel.text = push.appName
             cell.indexCell = indexPath.row
-            
-            UIView.animate(withDuration: 0.05, animations: {
-                cell.progressBarView.value = self.timerCount
-            })
-            
+            cell.progressBarView.value = CGFloat(push.time)
+
             cell.actionYesButtonBlock = { (sender, index) in
 
                 self.requestAnswerPush(index: index, answer: true)
@@ -511,10 +524,7 @@ extension MainViewController: UICollectionViewDataSource {
             cell.serviceNameLabel.text = push.appName
             cell.indexCell = indexPath.row
             cell.codeLabel.text = push.code
-
-            UIView.animate(withDuration: 0.05, animations: {
-                cell.progressBarView.value = self.timerCount
-            })
+            cell.progressBarView.value = CGFloat(push.time)
             
             cell.actionOkButtonBlock = { (sender, index) in
                 

@@ -14,12 +14,14 @@ class Push: NSObject {
     var mode:String
     var code:String
     var appName:String
-    
-    init(hashRequest: String, mode: String, code:String, appName: String) {
+    var time:Float
+
+    init(hashRequest: String, mode: String, code:String, appName: String, time: Float) {
         
         self.hashRequest = hashRequest
         self.mode = mode
         self.code = code
         self.appName = appName
+        self.time = time
     }
 }
