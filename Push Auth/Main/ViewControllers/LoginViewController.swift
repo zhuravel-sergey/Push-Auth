@@ -21,6 +21,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var emailView: UIView!
     
+    @IBOutlet weak var logoImageHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var logoImageWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var emailViewBottomConstraint: NSLayoutConstraint!
     
     let actIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
@@ -40,7 +42,7 @@ class LoginViewController: UIViewController {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 
-            //self.showCheckEmailPopUp()
+            //self.dismissScreen()
         }
     }
     
@@ -71,13 +73,27 @@ class LoginViewController: UIViewController {
         self.emailView.layer.borderColor = UIColor.white.cgColor
         
         self.emailTextField.delegate = self
+        
+        if self.view.frame.size.width == 320 {
+
+            self.logoImageHeightConstraint.constant = 120;
+            self.logoImageWidthConstraint.constant = 120;
+        }
     }
     
     //MARK: Keyboard
     
     func keyboardWillShow() {
         
-        self.emailViewBottomConstraint.constant = 145
+        if self.view.frame.size.width == 768 || self.view.frame.size.width == 834 {
+            self.emailViewBottomConstraint.constant = 250
+
+        } else if self.view.frame.size.width == 1024 {
+            self.emailViewBottomConstraint.constant = 300
+
+        } else {
+            self.emailViewBottomConstraint.constant = 145
+        }
         
         UIView.animate(withDuration: 0.25, animations: {
             self.view.layoutIfNeeded()
@@ -100,7 +116,7 @@ class LoginViewController: UIViewController {
     
     func dismissScreen() {
         
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: false, completion: nil)
         self.delegate.dismissViewController()
     }
     
@@ -118,14 +134,19 @@ class LoginViewController: UIViewController {
     
     @IBAction func actionLoginButton(_ sender: UIButton) {
         
-        if self.emailTextField.text?.characters.count == 0 {
-            self.showAlert(title: "Error", message: "E-mail can't be empty.")
-            
-        } else if !self.isValidEmail(email: self.emailTextField.text!) {
-            self.showAlert(title: "Error", message: "Wrong e-mail.")
+        if UIApplication.shared.isRegisteredForRemoteNotifications {
 
+            if self.emailTextField.text?.characters.count == 0 {
+                self.showAlert(title: "Error", message: "E-mail can't be empty.")
+                
+            } else if !self.isValidEmail(email: self.emailTextField.text!) {
+                self.showAlert(title: "Error", message: "Wrong e-mail.")
+                
+            } else {
+                self.requestLogin()
+            }
         } else {
-            self.requestLogin()
+            self.showNotificationPopUp()
         }
     }
     
@@ -145,6 +166,17 @@ class LoginViewController: UIViewController {
     func showCheckEmailPopUp() {
         
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "CheckEmailViewController") as! CheckEmailViewController!
+        
+        vc!.transitioningDelegate = self.transitioningDelegate
+        vc!.modalPresentationStyle = .overFullScreen
+        vc!.modalTransitionStyle = .crossDissolve
+        
+        self.present(vc!, animated: true, completion: nil)
+    }
+    
+    func showNotificationPopUp() {
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "NotificationPopUpViewController") as! NotificationPopUpViewController!
         
         vc!.transitioningDelegate = self.transitioningDelegate
         vc!.modalPresentationStyle = .overFullScreen

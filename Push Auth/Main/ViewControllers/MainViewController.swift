@@ -83,6 +83,13 @@ class MainViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.showPasscodeVC), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.requestGetPush), name: NSNotification.Name(rawValue: "PushRequest"), object: nil)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            
+            if !UIApplication.shared.isRegisteredForRemoteNotifications {
+                self.showNotificationPopUp()
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -203,6 +210,19 @@ class MainViewController: UIViewController {
         let vc = SCPinViewController.init(scope: .create)
         vc!.createDelegate = self
         self.present(vc!, animated: false, completion: nil)
+    }
+    
+    //MARK: PopUp
+    
+    func showNotificationPopUp() {
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "NotificationPopUpViewController") as! NotificationPopUpViewController!
+        
+        vc!.transitioningDelegate = self.transitioningDelegate
+        vc!.modalPresentationStyle = .overFullScreen
+        vc!.modalTransitionStyle = .crossDissolve
+        
+        self.present(vc!, animated: true, completion: nil)
     }
     
     //MARK: Webservice

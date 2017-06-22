@@ -12,8 +12,12 @@ class CheckEmailViewController: UIViewController {
 
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var emailBackGroundView: UIView!
-    
     @IBOutlet weak var emailLabel: UILabel!
+    
+    @IBOutlet weak var logoImageHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var logoImageWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var emailBackGroundViewBottomConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,6 +38,13 @@ class CheckEmailViewController: UIViewController {
 
         self.backButton.layer.masksToBounds = true
         self.backButton.layer.cornerRadius = 28
+        
+        if self.view.frame.size.width == 320 {
+            
+            self.logoImageHeightConstraint.constant = 120;
+            self.logoImageWidthConstraint.constant = 120;
+            self.emailBackGroundViewBottomConstraint.constant = 33
+        }
     }
 
     override func didReceiveMemoryWarning() {
