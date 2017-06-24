@@ -241,14 +241,18 @@ class MainViewController: UIViewController {
         
         let headers = ["Content-Type": "application/json"]
         
-        Alamofire.request("https://api.pushauth.io/push/index", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
-            print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
-            print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
-            print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
+        Alamofire.request("https://api.pushauth.io/push/index",
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
+            //print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
+            //print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
+            //print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
             
             switch response.result {
             case .success:
-                print("Validation Successful")
+                //print("Validation Successful")
                 
                 if let responseJSON = response.result.value {
                     let JSONdata = responseJSON as! NSDictionary
@@ -260,15 +264,19 @@ class MainViewController: UIViewController {
 
                         if arrayData[1] == self.generateHmacWithJson(json: arrayData[0]) {
                             let json = self.convertToDictionary(text: arrayData[0].fromBase64()!)
-                            print("json", json ?? "")
+                            //print("json", json ?? "")
 
                             if !((json?["total"] as! Int) == 0) {
                                 if let pushArray = json?["index"] as? [[String:Any]] {
                                     for pushObj in pushArray {
                                         
-                                        print(pushObj)
+                                        //print(pushObj)
                                         
-                                        let push = Push(hashRequest: pushObj["req_hash"] as? String ?? "", mode: pushObj["mode"] as? String ?? "", code: pushObj["code"] as? String ?? "", appName: pushObj["app_name"] as? String ?? "", time: 0)
+                                        let push = Push(hashRequest: pushObj["req_hash"] as? String ?? "",
+                                                        mode: pushObj["mode"] as? String ?? "",
+                                                        code: pushObj["code"] as? String ?? "",
+                                                        appName: pushObj["app_name"] as? String ?? "",
+                                                        time: 0)
                                         
                                         self.dataPushArray.append(push)
                                     }
@@ -320,14 +328,18 @@ class MainViewController: UIViewController {
         
         let headers = ["Content-Type": "application/json"]
         
-        Alamofire.request("https://api.pushauth.io/push/answer", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
-            print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
-            print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
-            print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
+        Alamofire.request("https://api.pushauth.io/push/answer",
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
+            //print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
+            //print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
+            //print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
             
             switch response.result {
             case .success:
-                print("Validation Successful")
+                //print("Validation Successful")
                 
                 if let responseJSON = response.result.value {
                     let JSONdata = responseJSON as! NSDictionary

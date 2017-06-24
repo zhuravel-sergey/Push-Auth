@@ -196,26 +196,25 @@ class LoginViewController: UIViewController {
                                       "device_uuid" : (UIDevice.current.identifierForVendor?.uuidString)!,
                                       "device_token" : FIRInstanceID.instanceID().token() ?? "",
                                       "device_type" : "ios"]
-        /*
-        let parameters: Parameters = ["email": "",
-                                      "device_uuid" : (UIDevice.current.identifierForVendor?.uuidString)!,
-                                      "device_token" : FIRInstanceID.instanceID().token() ?? "",
-                                      "device_type" : "ios"] */
         
         let headers = ["Content-Type": "application/json"]
         
-        Alamofire.request("https://api.pushauth.io/auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
-            print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
-            print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
-            print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
+        Alamofire.request("https://api.pushauth.io/auth",
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
+            //print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
+            //print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
+            //print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
 
             switch response.result {
             case .success:
-                print("Validation Successful")
+                //print("Validation Successful")
 
                 if let responseJSON = response.result.value {
                     let JSON = responseJSON as! NSDictionary
-                    print("JSON: \(JSON)")
+                    //print("JSON: \(JSON)")
                     
                     if response.response?.statusCode == 200 {
                         
