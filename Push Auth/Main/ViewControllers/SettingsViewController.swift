@@ -30,6 +30,20 @@ class SettingsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.navigationController?.navigationBar.setBackgroundImage(self.imageFromColor(color: UIColor.clear, frame: CGRect.init(x: 0, y: 0, width: self.view.frame.size.width, height: 64)), for: .default)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(SettingsViewController.showPasscodeVC), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
     }
 
     func imageFromColor(color: UIColor, frame: CGRect) -> UIImage {
@@ -110,6 +124,45 @@ class SettingsViewController: UIViewController {
         
         DataManager.sharedInstance.isTouchIdEnable = sender.isOn
     }
+    
+    //MARK: Show Passcode VC
+    
+    func showPasscodeVC() {
+        
+        if DataManager.sharedInstance.isShowPasscode! && DataManager.sharedInstance.userPinCode != nil && !(DataManager.sharedInstance.userPinCode == "") {
+            
+            let appearance = SCPinAppearance.default()
+            appearance?.titleText = "Enter PIN-code";
+            appearance?.numberButtonColor = UIColor.white
+            appearance?.numberButtonTitleColor = UIColor.white
+            appearance?.numberButtonStrokeColor = UIColor.white
+            appearance?.deleteButtonColor = UIColor.white
+            appearance?.pinFillColor = UIColor.clear
+            appearance?.pinHighlightedColor = UIColor.white
+            appearance?.pinStrokeColor = UIColor.white
+            appearance?.titleTextColor = UIColor.white
+            appearance?.supportTextColor = UIColor.white
+            appearance?.touchIDButtonColor = UIColor.white
+            appearance?.touchIDText = "Enter your passcode"
+            appearance?.touchIDVerification = "Enter your passcode"
+            
+            if DataManager.sharedInstance.isTouchIdEnable! {
+                appearance?.touchIDButtonEnabled = true
+                
+            } else {
+                appearance?.touchIDButtonEnabled = false
+            }
+            
+            SCPinViewController.setNewAppearance(appearance)
+            
+            let vc = SCPinViewController.init(scope: .validate)
+            vc!.validateDelegate = self
+            vc!.dataSource = self
+            self.present(vc!, animated: false, completion: nil)
+            
+            DataManager.sharedInstance.isShowPasscode = false
+        }
+    }
 }
 
 extension SettingsViewController: SCPinViewControllerCreateDelegate {
@@ -124,5 +177,29 @@ extension SettingsViewController: SCPinViewControllerCreateDelegate {
     
     func lengthForPin() -> Int {
         return 4
+    }
+}
+
+extension SettingsViewController: SCPinViewControllerValidateDelegate {
+    
+    //MARK: SCPinViewControllerValidateDelegate
+    
+    func pinViewControllerDidSetСorrectPin(_ pinViewController: SCPinViewController!) {
+        
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+    func pinViewControllerDidSetWrongPin(_ pinViewController: SCPinViewController!) {
+        
+    }
+}
+
+extension SettingsViewController: SCPinViewControllerDataSource {
+    
+    //MARK: SCPinViewControllerDataSource
+    
+    func code(for pinViewController: SCPinViewController!) -> String! {
+        
+        return DataManager.sharedInstance.userPinCode
     }
 }
