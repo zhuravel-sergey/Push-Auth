@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         DataManager.sharedInstance.isShowPasscode = true
+        DataManager.sharedInstance.requestPushDelay = 1
 
         UIApplication.shared.statusBarStyle = .lightContent
         
@@ -60,16 +61,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("applicationDidEnterBackground")
         
         DataManager.sharedInstance.isShowPasscode = true
+        DataManager.sharedInstance.requestPushDelay = 1
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         
+        DataManager.sharedInstance.requestPushDelay = 1
+
         print("applicationWillEnterForeground")
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
         
         print("applicationDidBecomeActive")
     }

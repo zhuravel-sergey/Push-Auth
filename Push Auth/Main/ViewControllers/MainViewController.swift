@@ -28,7 +28,7 @@ class MainViewController: UIViewController {
     var dataPushArray: Array<Push> = []
     var timeTimer:Timer! = Timer()
     var isSendRequest:Bool = false
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,9 +44,9 @@ class MainViewController: UIViewController {
         layout.itemSize = CGSize.init(width: 260, height: 331)
         layout.scrollDirection = .horizontal
         self.pushCollectionView.collectionViewLayout = layout
-
+        
         self.setupUserInterface()
-
+        
         if DataManager.sharedInstance.userPublicKey == nil || DataManager.sharedInstance.userPublicKey == "" || DataManager.sharedInstance.userPrivateKey == nil || DataManager.sharedInstance.userPrivateKey == "" {
             
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController!
@@ -64,13 +64,13 @@ class MainViewController: UIViewController {
             
             DataManager.sharedInstance.isTouchIdEnable = false
         }
-
+        
         if DataManager.sharedInstance.userPrivateKey != nil && !(DataManager.sharedInstance.userPrivateKey == "") && DataManager.sharedInstance.userPublicKey != nil && !(DataManager.sharedInstance.userPublicKey == "") {
             
             self.showPasscodeVC()
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -94,7 +94,7 @@ class MainViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -107,7 +107,7 @@ class MainViewController: UIViewController {
     //MARK: Setup Interface
     
     func setupUserInterface() {
-                
+        
         self.actIndicator.center = view.center
         view.addSubview(self.actIndicator)
         
@@ -125,7 +125,7 @@ class MainViewController: UIViewController {
     }
     
     //MARK: Actions
-
+    
     @IBAction func actionMenuButton(_ sender: Any) {
         
         self.frostedViewController.presentMenuViewController()
@@ -228,92 +228,98 @@ class MainViewController: UIViewController {
     //MARK: Webservice
     
     func requestGetPush() {
-        
-        self.actIndicator.startAnimating()
-        self.newPushLabel.isHidden = true
-        self.logoClear.isHidden = false
-        self.readyForPushLabel.isHidden = false
-        self.isSendRequest = true
-        self.pushCollectionView.reloadData()
-        
-        let parameters: Parameters = ["pk": DataManager.sharedInstance.userPublicKey ?? "",
-                                      "data" : self.generateDataHash()]
-        
-        let headers = ["Content-Type": "application/json"]
-        
-        Alamofire.request("https://api.pushauth.io/push/index",
-                          method: .post,
-                          parameters: parameters,
-                          encoding: JSONEncoding.default,
-                          headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
-            //print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
-            //print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
-            //print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(DataManager.sharedInstance.requestPushDelay!)) {
             
-            switch response.result {
-            case .success:
-                //print("Validation Successful")
-                
-                if let responseJSON = response.result.value {
-                    let JSONdata = responseJSON as! NSDictionary
-                    print("JSON: \(JSONdata)")
-                    
-                    if response.response?.statusCode == 200 {
-                        
-                        let arrayData = (JSONdata["data"] as! String).components(separatedBy: ".")
-
-                        if arrayData[1] == self.generateHmacWithJson(json: arrayData[0]) {
-                            let json = self.convertToDictionary(text: arrayData[0].fromBase64()!)
-                            //print("json", json ?? "")
-
-                            if !((json?["total"] as! Int) == 0) {
-                                if let pushArray = json?["index"] as? [[String:Any]] {
-                                    for pushObj in pushArray {
+            self.actIndicator.startAnimating()
+            self.newPushLabel.isHidden = true
+            self.logoClear.isHidden = false
+            self.readyForPushLabel.isHidden = false
+            self.isSendRequest = true
+            self.pushCollectionView.reloadData()
+            
+            let parameters: Parameters = ["pk": DataManager.sharedInstance.userPublicKey ?? "",
+                                          "data" : self.generateDataHash()]
+            
+            let headers = ["Content-Type": "application/json"]
+            
+            Alamofire.request("https://api.pushauth.io/push/index",
+                              method: .post,
+                              parameters: parameters,
+                              encoding: JSONEncoding.default,
+                              headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
+                                //print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
+                                //print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
+                                //print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
+                                
+                                switch response.result {
+                                case .success:
+                                    //print("Validation Successful")
+                                    
+                                    if let responseJSON = response.result.value {
+                                        let JSONdata = responseJSON as! NSDictionary
+                                        print("JSON: \(JSONdata)")
                                         
-                                        //print(pushObj)
-                                        
-                                        let push = Push(hashRequest: pushObj["req_hash"] as? String ?? "",
-                                                        mode: pushObj["mode"] as? String ?? "",
-                                                        code: pushObj["code"] as? String ?? "",
-                                                        appName: pushObj["app_name"] as? String ?? "",
-                                                        time: 0)
-                                        
-                                        self.dataPushArray.append(push)
+                                        if response.response?.statusCode == 200 {
+                                            
+                                            let arrayData = (JSONdata["data"] as! String).components(separatedBy: ".")
+                                            
+                                            if arrayData[1] == self.generateHmacWithJson(json: arrayData[0]) {
+                                                let json = self.convertToDictionary(text: arrayData[0].fromBase64()!)
+                                                //print("json", json ?? "")
+                                                
+                                                if !((json?["total"] as! Int) == 0) {
+                                                    if let pushArray = json?["index"] as? [[String:Any]] {
+                                                        for pushObj in pushArray {
+                                                            
+                                                            //print(pushObj)
+                                                            
+                                                            let push = Push(hashRequest: pushObj["req_hash"] as? String ?? "",
+                                                                            mode: pushObj["mode"] as? String ?? "",
+                                                                            code: pushObj["code"] as? String ?? "",
+                                                                            appName: pushObj["app_name"] as? String ?? "",
+                                                                            time: 0)
+                                                            
+                                                            self.dataPushArray.append(push)
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            
+                                        } else {
+                                            
+                                        }
                                     }
+                                    
+                                    if !(self.dataPushArray.count == 0) {
+                                        
+                                        self.newPushLabel.isHidden = false
+                                        self.pushCollectionView.reloadData()
+                                        self.logoClear.isHidden = true
+                                        self.readyForPushLabel.isHidden = true
+                                    }
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        self.isSendRequest = false
+                                    }
+                                    
+                                    self.actIndicator.stopAnimating()
+                                case .failure(let error):
+                                    
+                                    self.showAlert(title: "Error", message: "No internet connection.")
+                                    self.actIndicator.stopAnimating()
+                                    self.isSendRequest = false
+                                    print("Error login", error)
                                 }
-                            }
-                        }
-                        
-                    } else {
-                       
-                    }
-                }
-                
-                if !(self.dataPushArray.count == 0) {
-                    
-                    self.newPushLabel.isHidden = false
-                    self.pushCollectionView.reloadData()
-                    self.logoClear.isHidden = true
-                    self.readyForPushLabel.isHidden = true
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    self.isSendRequest = false
-                }
-                
-                self.actIndicator.stopAnimating()
-            case .failure(let error):
-                
-                self.showAlert(title: "Error", message: "No internet connection.")
-                self.actIndicator.stopAnimating()
-                self.isSendRequest = false
-                print("Error login", error)
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                DataManager.sharedInstance.requestPushDelay = 0
             }
         }
     }
     
     func requestAnswerPush(index: Int, answer: Bool) {
-
+        
         self.actIndicator.startAnimating()
         self.pushCollectionView.isUserInteractionEnabled = false
         
@@ -333,42 +339,42 @@ class MainViewController: UIViewController {
                           parameters: parameters,
                           encoding: JSONEncoding.default,
                           headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
-            //print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
-            //print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
-            //print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
-            
-            switch response.result {
-            case .success:
-                //print("Validation Successful")
-                
-                if let responseJSON = response.result.value {
-                    let JSONdata = responseJSON as! NSDictionary
-                    print("JSON: \(JSONdata)")
-                    
-                    if response.response?.statusCode == 200 {
-                        
-                        self.dataPushArray.remove(at: index)
-                        self.pushCollectionView.reloadData()
-                        
-                        if self.dataPushArray.count == 0 {
-                            self.newPushLabel.isHidden = true
-                            self.logoClear.isHidden = false
-                            self.readyForPushLabel.isHidden = false
-                        }
-                    } else {
-                        
-                    }
-                }
-                
-                self.pushCollectionView.isUserInteractionEnabled = true
-                self.actIndicator.stopAnimating()
-            case .failure(let error):
-                
-                self.showAlert(title: "Error", message: "No internet connection.")
-                self.actIndicator.stopAnimating()
-                self.pushCollectionView.isUserInteractionEnabled = true
-                print("Error login", error)
-            }
+                            //print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
+                            //print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
+                            //print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
+                            
+                            switch response.result {
+                            case .success:
+                                //print("Validation Successful")
+                                
+                                if let responseJSON = response.result.value {
+                                    let JSONdata = responseJSON as! NSDictionary
+                                    print("JSON: \(JSONdata)")
+                                    
+                                    if response.response?.statusCode == 200 {
+                                        
+                                        self.dataPushArray.remove(at: index)
+                                        self.pushCollectionView.reloadData()
+                                        
+                                        if self.dataPushArray.count == 0 {
+                                            self.newPushLabel.isHidden = true
+                                            self.logoClear.isHidden = false
+                                            self.readyForPushLabel.isHidden = false
+                                        }
+                                    } else {
+                                        
+                                    }
+                                }
+                                
+                                self.pushCollectionView.isUserInteractionEnabled = true
+                                self.actIndicator.stopAnimating()
+                            case .failure(let error):
+                                
+                                self.showAlert(title: "Error", message: "No internet connection.")
+                                self.actIndicator.stopAnimating()
+                                self.pushCollectionView.isUserInteractionEnabled = true
+                                print("Error login", error)
+                            }
         }
     }
     
@@ -384,7 +390,7 @@ class MainViewController: UIViewController {
     }
     
     func dictionaryToBase64(dict: [String: Any]) -> String {
-
+        
         do {
             let jsonData: Data = try JSONSerialization.data(withJSONObject:dict,options: JSONSerialization.WritingOptions.prettyPrinted)
             return jsonData.base64EncodedString()
@@ -401,7 +407,7 @@ class MainViewController: UIViewController {
         if !(self.dataPushArray.count == 0) {
             
             for (index, _) in self.dataPushArray.enumerated() {
-
+                
                 self.dataPushArray[index].time += 0.1
             }
             
@@ -476,7 +482,7 @@ class MainViewController: UIViewController {
 }
 
 extension String {
-
+    
     func fromBase64() -> String? {
         guard let data = Data(base64Encoded: self) else {
             return nil
@@ -512,16 +518,16 @@ extension Array where Element:Equatable {
 extension MainViewController: UICollectionViewDelegate {
     
     //MARK: UICollectionViewDelegate
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+        
     }
 }
 
 extension MainViewController: UICollectionViewDataSource {
     
     //MARK: UICollectionViewDataSource
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.dataPushArray.count
     }
@@ -529,7 +535,7 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let push = self.dataPushArray[indexPath.row]
-
+        
         if push.mode == "push" {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: pushCellIdentifier, for: indexPath) as! PushCollectionViewCell
@@ -537,9 +543,9 @@ extension MainViewController: UICollectionViewDataSource {
             cell.serviceNameLabel.text = push.appName
             cell.indexCell = indexPath.row
             cell.progressBarView.value = CGFloat(push.time)
-
+            
             cell.actionYesButtonBlock = { (sender, index) in
-
+                
                 self.requestAnswerPush(index: index, answer: true)
             }
             
@@ -586,7 +592,7 @@ extension MainViewController: LoginViewControllerDelegate {
 extension MainViewController: SCPinViewControllerCreateDelegate {
     
     //MARK: SCPinViewControllerCreateDelegate
-
+    
     func pinViewController(_ pinViewController: SCPinViewController!, didSetNewPin pin: String!) {
         
         DataManager.sharedInstance.userPinCode = pin
@@ -601,7 +607,7 @@ extension MainViewController: SCPinViewControllerCreateDelegate {
 extension MainViewController: SCPinViewControllerValidateDelegate {
     
     //MARK: SCPinViewControllerValidateDelegate
-
+    
     func pinViewControllerDidSetСorrectPin(_ pinViewController: SCPinViewController!) {
         
         self.dismiss(animated: false, completion: nil)
@@ -615,7 +621,7 @@ extension MainViewController: SCPinViewControllerValidateDelegate {
 extension MainViewController: SCPinViewControllerDataSource {
     
     //MARK: SCPinViewControllerDataSource
-
+    
     func code(for pinViewController: SCPinViewController!) -> String! {
         
         return DataManager.sharedInstance.userPinCode
