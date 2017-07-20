@@ -202,4 +202,9 @@ extension SettingsViewController: SCPinViewControllerDataSource {
         
         return DataManager.sharedInstance.userPinCode
     }
+    
+    func hideTouchIDButtonIfFingersAreNotEnrolled() -> Bool {
+        
+        return true
+    }
 }

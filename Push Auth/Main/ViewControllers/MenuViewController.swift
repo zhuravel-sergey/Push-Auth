@@ -8,6 +8,7 @@
 
 import UIKit
 import REFrostedViewController
+import Alamofire
 
 class MenuViewController: UIViewController {
     
@@ -36,6 +37,41 @@ class MenuViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func requestLogOut() {
+        
+        let parameters: Parameters = ["pk": DataManager.sharedInstance.userPublicKey ?? ""]
+        let headers = ["Content-Type": "application/json"]
+        
+        Alamofire.request("https://api.pushauth.io/logout",
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
+                            //print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
+                            //print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
+                            //print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
+                            
+                            switch response.result {
+                            case .success:
+                                //print("Validation Successful")
+                                
+                                if let responseJSON = response.result.value {
+                                    let JSONdata = responseJSON as! NSDictionary
+                                    print("JSON: \(JSONdata)")
+                                    
+                                    if response.response?.statusCode == 200 {
+                                        
+                                    } else {
+                                        
+                                    }
+                                }
+                                
+                            case .failure(let error):
+                                print("Error login", error)
+                            }
+        }
     }
 }
 
@@ -81,6 +117,8 @@ extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
             navigationController.viewControllers = [settingsViewController]
             
         } else if indexPath.row == 2 {
+            
+            self.requestLogOut()
             
             DataManager.sharedInstance.clearUser()
             

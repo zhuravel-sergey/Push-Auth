@@ -331,13 +331,18 @@ static SCPinAppearance *appearance;
                                       }
                                   });
                               } else {
-                                  NSLog(@"Authentication Error: %@", authenticationError);
+                                  if ([authenticationError.localizedDescription isEqualToString:@"Biometry is locked out."]) {
+                                      self.touchIDButton.hidden = YES;
+                                  }
                               }
                           }];
     } else {
         NSLog(@"Policy Error: %@", [error localizedDescription]);
+        
+        if ([[error localizedDescription] isEqualToString:@"Biometry is locked out."]) {
+            self.touchIDButton.hidden = YES;
+        }
     }
-    
 }
 
 #pragma mark - Actions
