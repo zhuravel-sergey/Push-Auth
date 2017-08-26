@@ -20,6 +20,7 @@ struct ConstantsKeys {
     static let kIsFirstLaunchKey  = "isFirstLaunch"
     static let kIsTouchIdEnableKey  = "isTouchIdEnable"
     static let kRequestPushDelayKey  = "requestPushDelay"
+    static let kIsAccessSuccessKey  = "isAccessSuccess"
 }
 
 class DataManager: NSObject {
@@ -55,6 +56,12 @@ class DataManager: NSObject {
     }
     
     var isFirstLaunch:Bool? {
+        didSet {
+            self.saveData()
+        }
+    }
+    
+    var isAccessSuccess:Bool? {
         didSet {
             self.saveData()
         }
@@ -105,6 +112,7 @@ class DataManager: NSObject {
                 self.isFirstLaunch = storedSession[ConstantsKeys.kIsFirstLaunchKey] as! Bool?
                 self.isTouchIdEnable = storedSession[ConstantsKeys.kIsTouchIdEnableKey] as! Bool?
                 self.requestPushDelay = storedSession[ConstantsKeys.kRequestPushDelayKey] as! Int?
+                self.isAccessSuccess = storedSession[ConstantsKeys.kIsAccessSuccessKey] as! Bool?
             }
         }
     }
@@ -141,18 +149,23 @@ class DataManager: NSObject {
             self.isTouchIdEnable = false
         }
         
+        if self.isAccessSuccess == nil {
+            self.isAccessSuccess = false
+        }
+        
         if self.requestPushDelay == nil {
             self.requestPushDelay = 0
         }
         
-        let storedDic = [ConstantsKeys.kUserPublicKey : self.userPublicKey ?? "",
+        let storedDic: [String : Any] = [ConstantsKeys.kUserPublicKey : self.userPublicKey ?? "",
                          ConstantsKeys.kUserPrivateKey : self.userPrivateKey ?? "",
                          ConstantsKeys.kUserEmailKey : self.userEmail ?? "",
                          ConstantsKeys.kUserPinCodeKey : self.userPinCode ?? "",
                          ConstantsKeys.kIsShowPasscodeKey : self.isShowPasscode ?? false,
+                         ConstantsKeys.kIsAccessSuccessKey : self.isAccessSuccess ?? false,
                          ConstantsKeys.kIsFirstLaunchKey : self.isFirstLaunch ?? false,
                          ConstantsKeys.kIsTouchIdEnableKey : self.isTouchIdEnable ?? false,
-                         ConstantsKeys.kRequestPushDelayKey : self.requestPushDelay ?? 0] as [String : Any]
+                         ConstantsKeys.kRequestPushDelayKey : self.requestPushDelay ?? 0]
         
         NSKeyedArchiver.archiveRootObject(storedDic, toFile: storedFile)
     }
@@ -166,6 +179,7 @@ class DataManager: NSObject {
         self.isShowPasscode = false
         self.isFirstLaunch = false
         self.isTouchIdEnable = false
+        self.isAccessSuccess = false
         self.requestPushDelay = 0
         self.saveData()
     }

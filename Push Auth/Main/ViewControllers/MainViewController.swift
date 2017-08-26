@@ -55,12 +55,23 @@ class MainViewController: UIViewController {
             DataManager.sharedInstance.isShowPasscode = false
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.present(vc!, animated: false, completion: nil)
+                if DataManager.sharedInstance.isAccessSuccess! {
+                    
+                    self.present(vc!, animated: false, completion: nil)
+                }
+                
+                if !(DataManager.sharedInstance.isFirstLaunch!) {
+
+                    self.present(vc!, animated: false, completion: nil)
+                }
             }
         }
         
         if !(DataManager.sharedInstance.isFirstLaunch!) {
-            DataManager.sharedInstance.isFirstLaunch = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+
+                DataManager.sharedInstance.isFirstLaunch = true
+            }
             
             DataManager.sharedInstance.isTouchIdEnable = false
         }
@@ -86,7 +97,7 @@ class MainViewController: UIViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             
-            if !UIApplication.shared.isRegisteredForRemoteNotifications {
+            if !UIApplication.shared.isRegisteredForRemoteNotifications && DataManager.sharedInstance.isAccessSuccess! {
                 self.showNotificationPopUp()
             }
         }

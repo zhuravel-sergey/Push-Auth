@@ -8,7 +8,7 @@ target 'Push Auth' do
   # Pods for Push Auth
   
   pod 'UIColor-HexString'
-  pod 'Alamofire', '~> 4.3’
+  pod 'Alamofire', '~> 4.4’
   pod 'Fabric'
   pod 'Crashlytics'
   pod 'REFrostedViewController'

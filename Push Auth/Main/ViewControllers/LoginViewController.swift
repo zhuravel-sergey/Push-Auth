@@ -136,6 +136,8 @@ class LoginViewController: UIViewController {
         
         if UIApplication.shared.isRegisteredForRemoteNotifications {
 
+            DataManager.sharedInstance.isAccessSuccess = true
+            
             if self.emailTextField.text?.characters.count == 0 {
                 self.showAlert(title: "Error", message: "E-mail can't be empty.")
                 
@@ -146,7 +148,8 @@ class LoginViewController: UIViewController {
                 self.requestLogin()
             }
         } else {
-            self.showNotificationPopUp()
+            
+            self.requestSuccess()
         }
     }
     
@@ -214,12 +217,17 @@ class LoginViewController: UIViewController {
 
                 if let responseJSON = response.result.value {
                     let JSON = responseJSON as! NSDictionary
-                    //print("JSON: \(JSON)")
+                    print("JSON: \(JSON)")
                     
                     if response.response?.statusCode == 200 {
                         
                         DataManager.sharedInstance.userEmail = self.emailTextField.text
                         DataManager.sharedInstance.userPublicKey = JSON["public_key"] as? String
+                        
+                        if !DataManager.sharedInstance.isAccessSuccess! {
+                            
+                            self.dismissScreen()
+                        }
 
                     } else {
                         if JSON["message"] as! String == "Please check your email for confirmation!" {
@@ -242,6 +250,60 @@ class LoginViewController: UIViewController {
                 
                 print("Error login", error)
             }
+        }
+    }
+    
+    func requestSuccess() {
+        
+        self.actIndicator.startAnimating()
+        self.loginButton.isEnabled = false
+        
+        let headers = ["Content-Type": "application/json"]
+        
+        Alamofire.request("https://api.pushauth.io/push",
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
+                            //print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
+                            //print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
+                            //print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
+                            
+                            switch response.result {
+                            case .success:
+                                //print("Validation Successful")
+                                
+                                if let responseJSON = response.result.value {
+                                    let JSON = responseJSON as! NSDictionary
+                                    print("JSON: \(JSON)")
+                                    
+                                    if response.response?.statusCode == 200 {
+                                        if JSON["flag"] as! Bool == true {
+                                            
+                                            DataManager.sharedInstance.isAccessSuccess = true
+                                            self.showNotificationPopUp()
+                                        } else {
+                                            
+                                            DataManager.sharedInstance.isAccessSuccess = false
+                                            self.requestLogin()
+                                        }
+                                    } else {
+                                        self.showAlert(title: "Error", message: "No internet connection.")
+                                        self.actIndicator.stopAnimating()
+                                        self.loginButton.isEnabled = true
+                                    }
+                                    
+                                    self.actIndicator.stopAnimating()
+                                    self.loginButton.isEnabled = true
+                                }
+                            case .failure(let error):
+                                
+                                self.showAlert(title: "Error", message: "No internet connection.")
+                                self.actIndicator.stopAnimating()
+                                self.loginButton.isEnabled = true
+                                
+                                print("Error login", error)
+                            }
         }
     }
 }
