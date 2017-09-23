@@ -17,4 +17,5 @@ target 'Push Auth' do
   pod 'CryptoSwift'
   pod 'SwiftyJSON'
   pod 'UPCarouselFlowLayout'
+  pod 'QRCodeReader.swift'
 end

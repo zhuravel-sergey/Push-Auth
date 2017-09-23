@@ -41,7 +41,7 @@ class MenuNavigationViewController: UINavigationController {
         // Dispose of any resources that can be recreated.
     }
     
-    func panGestureRecognized(sender: UIPanGestureRecognizer) {
+    @objc func panGestureRecognized(sender: UIPanGestureRecognizer) {
         
         self.view.endEditing(true)
         self.frostedViewController.view.endEditing(true)

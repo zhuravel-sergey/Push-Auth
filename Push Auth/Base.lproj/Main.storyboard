@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="CourierNewBold.ttf">
+            <string>CourierNewPS-BoldMT</string>
+        </array>
         <array key="SF-UI-Text-Light.otf">
             <string>SFUIText-Light</string>
         </array>
@@ -38,6 +42,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="44" y="36"/>
         </scene>
         <!--Menu View Controller-->
         <scene sceneID="M7y-lY-f6g">
@@ -361,7 +366,7 @@ for confirmation.</string>
             <objects>
                 <navigationController storyboardIdentifier="MenuNavigationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="y8y-GI-Tra" customClass="MenuNavigationViewController" customModule="Push_Auth" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="rRO-kB-GE0">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -724,6 +729,21 @@ for confirmation.</string>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ceZ-se-c6v">
+                                <rect key="frame" x="199" y="583" width="203" height="56"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="203" id="2gg-9u-0S3"/>
+                                    <constraint firstAttribute="height" constant="56" id="t1R-iW-kLE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SFUIText-Regular" family="SF UI Text" pointSize="18"/>
+                                <state key="normal" title="Scan QR">
+                                    <color key="titleColor" red="0.80784313730000001" green="0.60392156860000001" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="actionScanQRButton:" destination="f74-Ih-u2m" eventType="touchUpInside" id="1HC-8M-rzc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -739,8 +759,10 @@ for confirmation.</string>
                             <constraint firstItem="gU2-gn-iYG" firstAttribute="top" secondItem="4iG-Mx-PPQ" secondAttribute="bottom" constant="26" id="RNW-S9-KmZ"/>
                             <constraint firstItem="gU2-gn-iYG" firstAttribute="leading" secondItem="5GQ-cw-77E" secondAttribute="leading" id="aW5-tb-AVQ"/>
                             <constraint firstItem="WC3-zK-MgV" firstAttribute="top" secondItem="Gl9-MY-7c5" secondAttribute="bottom" id="iBR-Ql-rDo"/>
+                            <constraint firstItem="WC3-zK-MgV" firstAttribute="top" secondItem="ceZ-se-c6v" secondAttribute="bottom" constant="28" id="rZE-Ox-Y1y"/>
                             <constraint firstItem="Gl9-MY-7c5" firstAttribute="leading" secondItem="5GQ-cw-77E" secondAttribute="leading" id="twL-GR-cTk"/>
                             <constraint firstItem="Gl9-MY-7c5" firstAttribute="top" secondItem="m02-jf-Vge" secondAttribute="bottom" constant="-65" id="wre-Mr-gtQ"/>
+                            <constraint firstItem="ceZ-se-c6v" firstAttribute="centerX" secondItem="5GQ-cw-77E" secondAttribute="centerX" id="xsA-Ce-jEw"/>
                             <constraint firstItem="4iG-Mx-PPQ" firstAttribute="centerY" secondItem="5GQ-cw-77E" secondAttribute="centerY" constant="-60" id="yVh-LA-xdO"/>
                         </constraints>
                     </view>
@@ -766,6 +788,7 @@ for confirmation.</string>
                         <outlet property="pushCollectionView" destination="pkr-a5-ncd" id="kTm-7U-63J"/>
                         <outlet property="pushCollectionViewCenterConstraint" destination="8NL-a3-AvM" id="J2D-ay-89I"/>
                         <outlet property="readyForPushLabel" destination="gU2-gn-iYG" id="OfP-NU-JNS"/>
+                        <outlet property="scanQRButton" destination="ceZ-se-c6v" id="aTy-d2-lc4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FAw-WC-mvV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -785,10 +808,10 @@ for confirmation.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backGround" translatesAutoresizingMaskIntoConstraints="NO" id="s1W-li-xY8">
-                                <rect key="frame" x="0.0" y="-1" width="375" height="668"/>
+                                <rect key="frame" x="0.0" y="-45" width="375" height="712"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gBz-ye-ZCi">
-                                <rect key="frame" x="24" y="233" width="328" height="114"/>
+                                <rect key="frame" x="24" y="189" width="328" height="114"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgroundSmall" translatesAutoresizingMaskIntoConstraints="NO" id="IIh-o6-4zh">
                                         <rect key="frame" x="0.0" y="0.0" width="328" height="114"/>
@@ -851,7 +874,7 @@ for confirmation.</string>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xuh-Nl-ZOZ">
-                                <rect key="frame" x="24" y="93" width="328" height="114"/>
+                                <rect key="frame" x="24" y="49" width="328" height="114"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgroundSmall" translatesAutoresizingMaskIntoConstraints="NO" id="hV8-CS-KLL">
                                         <rect key="frame" x="0.0" y="0.0" width="328" height="114"/>
@@ -1017,7 +1040,7 @@ for confirmation.</string>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You need to enable push notifications in the Settings for authorization" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTM-MR-e0a">
-                                        <rect key="frame" x="20" y="139" width="255" height="33.5"/>
+                                        <rect key="frame" x="20" y="139" width="255" height="33"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="90d-b3-ooT"/>
                                         </constraints>

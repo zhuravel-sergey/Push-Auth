@@ -127,7 +127,7 @@ class SettingsViewController: UIViewController {
     
     //MARK: Show Passcode VC
     
-    func showPasscodeVC() {
+    @objc func showPasscodeVC() {
         
         if DataManager.sharedInstance.isShowPasscode! && DataManager.sharedInstance.userPinCode != nil && !(DataManager.sharedInstance.userPinCode == "") {
             

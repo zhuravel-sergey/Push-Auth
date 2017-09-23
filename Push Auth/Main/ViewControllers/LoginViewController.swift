@@ -83,7 +83,7 @@ class LoginViewController: UIViewController {
     
     //MARK: Keyboard
     
-    func keyboardWillShow() {
+    @objc func keyboardWillShow() {
         
         if self.view.frame.size.width == 768 || self.view.frame.size.width == 834 {
             self.emailViewBottomConstraint.constant = 250
@@ -100,7 +100,7 @@ class LoginViewController: UIViewController {
         })
     }
     
-    func keyboardWillHide() {
+    @objc func keyboardWillHide() {
         
         self.emailViewBottomConstraint.constant = 56
         
@@ -109,12 +109,12 @@ class LoginViewController: UIViewController {
         })
     }
     
-    func dismissKeyboard() {
+    @objc func dismissKeyboard() {
         
         view.endEditing(true)
     }
     
-    func dismissScreen() {
+    @objc func dismissScreen() {
         
         self.dismiss(animated: false, completion: nil)
         self.delegate.dismissViewController()
@@ -197,7 +197,7 @@ class LoginViewController: UIViewController {
         
         let parameters: Parameters = ["email": self.emailTextField.text ?? "",
                                       "device_uuid" : (UIDevice.current.identifierForVendor?.uuidString)!,
-                                      "device_token" : FIRInstanceID.instanceID().token() ?? "",
+                                      "device_token" : InstanceID.instanceID().token() ?? "",
                                       "device_type" : "ios"]
         
         let headers = ["Content-Type": "application/json"]
@@ -208,7 +208,7 @@ class LoginViewController: UIViewController {
                           encoding: JSONEncoding.default,
                           headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
             //print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
-            //print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
+            print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
             //print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
 
             switch response.result {

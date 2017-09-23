@@ -12,6 +12,8 @@ import Alamofire
 import CryptoSwift
 import SwiftyJSON
 import UPCarouselFlowLayout
+import QRCodeReader
+import AVFoundation
 
 let pushCellIdentifier = "pushCell"
 let codeCellIdentifier = "codeCell"
@@ -23,11 +25,20 @@ class MainViewController: UIViewController {
     @IBOutlet weak var readyForPushLabel: UILabel!
     @IBOutlet weak var logoClear: UIImageView!
     @IBOutlet weak var newPushLabel: UILabel!
+    @IBOutlet weak var scanQRButton: UIButton!
     
     let actIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
     var dataPushArray: Array<Push> = []
     var timeTimer:Timer! = Timer()
     var isSendRequest:Bool = false
+    
+    lazy var readerVC: QRCodeReaderViewController = {
+        let builder = QRCodeReaderViewControllerBuilder {
+            $0.reader = QRCodeReader(metadataObjectTypes: [.qr], captureDevicePosition: .back)
+        }
+        
+        return QRCodeReaderViewController(builder: builder)
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,6 +134,9 @@ class MainViewController: UIViewController {
         view.addSubview(self.actIndicator)
         
         self.newPushLabel.isHidden = true
+        
+        self.scanQRButton.layer.masksToBounds = true
+        self.scanQRButton.layer.cornerRadius = 28
     }
     
     func imageFromColor(color: UIColor, frame: CGRect) -> UIImage {
@@ -142,6 +156,22 @@ class MainViewController: UIViewController {
         self.frostedViewController.presentMenuViewController()
     }
     
+    @IBAction func actionScanQRButton(_ sender: UIButton) {
+        
+        readerVC.delegate = self
+        readerVC.completionBlock = { (result: QRCodeReaderResult?) in
+            print("actionScanQRButton",result ?? "")
+            
+            if ((result?.value) != nil) {
+                
+                self.requestQRcode(code: (result?.value)!)
+            }
+        }
+        
+        readerVC.modalPresentationStyle = .formSheet
+        present(readerVC, animated: true, completion: nil)
+    }
+    
     func actionCodeOkButton(index: Int) {
         
         self.dataPushArray.remove(at: index)
@@ -151,12 +181,13 @@ class MainViewController: UIViewController {
             self.newPushLabel.isHidden = true
             self.logoClear.isHidden = false
             self.readyForPushLabel.isHidden = false
+            self.scanQRButton.isHidden = false
         }
     }
     
     //MARK: Show Passcode VC
     
-    func showPasscodeVC() {
+    @objc func showPasscodeVC() {
         
         if DataManager.sharedInstance.isShowPasscode! && DataManager.sharedInstance.userPinCode != nil && !(DataManager.sharedInstance.userPinCode == "") {
             
@@ -238,13 +269,14 @@ class MainViewController: UIViewController {
     
     //MARK: Webservice
     
-    func requestGetPush() {
+    @objc func requestGetPush() {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(DataManager.sharedInstance.requestPushDelay!)) {
             
             self.actIndicator.startAnimating()
             self.newPushLabel.isHidden = true
             self.logoClear.isHidden = false
             self.readyForPushLabel.isHidden = false
+            self.scanQRButton.isHidden = false
             self.isSendRequest = true
             self.pushCollectionView.reloadData()
             
@@ -307,6 +339,7 @@ class MainViewController: UIViewController {
                                         self.pushCollectionView.reloadData()
                                         self.logoClear.isHidden = true
                                         self.readyForPushLabel.isHidden = true
+                                        self.scanQRButton.isHidden = true
                                     }
                                     
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -371,9 +404,60 @@ class MainViewController: UIViewController {
                                             self.newPushLabel.isHidden = true
                                             self.logoClear.isHidden = false
                                             self.readyForPushLabel.isHidden = false
+                                            self.scanQRButton.isHidden = false
                                         }
                                     } else {
                                         
+                                    }
+                                }
+                                
+                                self.pushCollectionView.isUserInteractionEnabled = true
+                                self.actIndicator.stopAnimating()
+                            case .failure(let error):
+                                
+                                self.showAlert(title: "Error", message: "No internet connection.")
+                                self.actIndicator.stopAnimating()
+                                self.pushCollectionView.isUserInteractionEnabled = true
+                                print("Error login", error)
+                            }
+        }
+    }
+    
+    func requestQRcode(code: String) {
+        
+        self.actIndicator.startAnimating()
+        self.pushCollectionView.isUserInteractionEnabled = false
+        
+        let json = ["hash":code] as [String: Any]
+        let jsonBase64 = self.dictionaryToBase64(dict: json)
+        
+        let data = jsonBase64 + "." + self.generateHmacWithJson(json: jsonBase64)
+        
+        let parameters: Parameters = ["pk": DataManager.sharedInstance.userPublicKey ?? "",
+                                      "data" : data]
+        
+        let headers = ["Content-Type": "application/json"]
+        
+        Alamofire.request("https://api.pushauth.io/qr/store",
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers).validate(contentType: ["application/json"]).responseJSON { response in
+                            //print("Header request:\n \(String(describing: response.request?.allHTTPHeaderFields))\n")
+                            print("request httpBody\n",NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue) ?? "", "\n")
+                            //print("Header:\n \(String(describing: response.response?.allHeaderFields))\n")
+                            
+                            switch response.result {
+                            case .success:
+                                //print("Validation Successful")
+                                if let responseJSON = response.result.value {
+                                    let JSONdata = responseJSON as! NSDictionary
+                                    print("JSON: \(JSONdata)")
+                                    
+                                    if response.response?.statusCode == 200 {
+                                        
+                                    } else {
+                                        self.showAlert(title: "Error", message: JSONdata["message"] as? String ?? "")
                                     }
                                 }
                                 
@@ -413,7 +497,7 @@ class MainViewController: UIViewController {
     
     //MARK: Timer
     
-    func timeTimerChanged(_ timer:CADisplayLink) {
+    @objc func timeTimerChanged(_ timer:CADisplayLink) {
         
         if !(self.dataPushArray.count == 0) {
             
@@ -433,11 +517,13 @@ class MainViewController: UIViewController {
             self.newPushLabel.isHidden = false
             self.logoClear.isHidden = true
             self.readyForPushLabel.isHidden = true
-            
+            self.scanQRButton.isHidden = true
+
         } else {
             self.newPushLabel.isHidden = true
             self.logoClear.isHidden = false
             self.readyForPushLabel.isHidden = false
+            self.scanQRButton.isHidden = false
         }
     }
     
@@ -641,5 +727,27 @@ extension MainViewController: SCPinViewControllerDataSource {
     func hideTouchIDButtonIfFingersAreNotEnrolled() -> Bool {
         
         return true
+    }
+}
+
+extension MainViewController: QRCodeReaderViewControllerDelegate {
+    
+    // MARK: - QRCodeReaderViewControllerDelegate
+    
+    func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
+        reader.stopScanning()
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func reader(_ reader: QRCodeReaderViewController, didSwitchCamera newCaptureDevice: AVCaptureDeviceInput) {
+        
+        print("Switching capturing to:",newCaptureDevice.device.localizedName)
+    }
+    
+    func readerDidCancel(_ reader: QRCodeReaderViewController) {
+        reader.stopScanning()
+        
+        dismiss(animated: true, completion: nil)
     }
 }
