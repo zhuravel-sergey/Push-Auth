@@ -195,10 +195,17 @@ class LoginViewController: UIViewController {
         self.actIndicator.startAnimating()
         self.loginButton.isEnabled = false
         
+        var sysinfo = utsname()
+        uname(&sysinfo)
+        let model =  String(bytes: Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
+        
         let parameters: Parameters = ["email": self.emailTextField.text ?? "",
                                       "device_uuid" : (UIDevice.current.identifierForVendor?.uuidString)!,
                                       "device_token" : InstanceID.instanceID().token() ?? "",
-                                      "device_type" : "ios"]
+                                      "device_type" : "ios",
+                                      "device_name" : UIDevice.current.name,
+                                      "device_os_detail" : UIDevice.current.systemVersion,
+                                      "device_vendor" : model]
         
         let headers = ["Content-Type": "application/json"]
         
